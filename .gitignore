@@ -1,0 +1,35 @@
+#Mac Files
+.DS_Store
+*.tm_properties
+
+# Bootstrap
+#app/bootstrap*
+#app/bootstrap.php.cache
+
+# Symfony directories
+#vendor/*
+vendor/.git
+web/uploads/*
+web/bundles/*
+web/custom/*
+
+# Configuration files
+app/config/parameters.ini
+app/config/parameters.yml
+
+# Cache
+app/cache/*
+app/logs/*
+
+# Propel
+app/propel/generated-schemas/*
+
+# SASS Cache
+.sass-cache/
+
+
+#CSS Files
+*.css
+
+#PHPStorm
+.idea
