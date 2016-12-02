@@ -70,7 +70,7 @@ class DateTypeTest extends TestCase
     public function testSubmitFromSingleTextDateTime()
     {
         // we test against "de_AT", so we need the full implementation
-        IntlTestHelper::requireFullIntl($this);
+        IntlTestHelper::requireFullIntl($this, false);
 
         \Locale::setDefault('de_AT');
 
@@ -91,7 +91,7 @@ class DateTypeTest extends TestCase
     public function testSubmitFromSingleTextString()
     {
         // we test against "de_AT", so we need the full implementation
-        IntlTestHelper::requireFullIntl($this);
+        IntlTestHelper::requireFullIntl($this, false);
 
         \Locale::setDefault('de_AT');
 
@@ -112,7 +112,7 @@ class DateTypeTest extends TestCase
     public function testSubmitFromSingleTextTimestamp()
     {
         // we test against "de_AT", so we need the full implementation
-        IntlTestHelper::requireFullIntl($this);
+        IntlTestHelper::requireFullIntl($this, false);
 
         \Locale::setDefault('de_AT');
 
@@ -135,7 +135,7 @@ class DateTypeTest extends TestCase
     public function testSubmitFromSingleTextRaw()
     {
         // we test against "de_AT", so we need the full implementation
-        IntlTestHelper::requireFullIntl($this);
+        IntlTestHelper::requireFullIntl($this, false);
 
         \Locale::setDefault('de_AT');
 
@@ -187,6 +187,7 @@ class DateTypeTest extends TestCase
             'model_timezone' => 'UTC',
             'view_timezone' => 'UTC',
             'widget' => 'choice',
+            'years' => array(2010),
         ));
 
         $text = array(
@@ -398,7 +399,7 @@ class DateTypeTest extends TestCase
     public function testSetDataWithNegativeTimezoneOffsetStringInput()
     {
         // we test against "de_AT", so we need the full implementation
-        IntlTestHelper::requireFullIntl($this);
+        IntlTestHelper::requireFullIntl($this, false);
 
         \Locale::setDefault('de_AT');
 
@@ -420,7 +421,7 @@ class DateTypeTest extends TestCase
     public function testSetDataWithNegativeTimezoneOffsetDateTimeInput()
     {
         // we test against "de_AT", so we need the full implementation
-        IntlTestHelper::requireFullIntl($this);
+        IntlTestHelper::requireFullIntl($this, false);
 
         \Locale::setDefault('de_AT');
 
@@ -486,7 +487,7 @@ class DateTypeTest extends TestCase
         $view = $form->createView();
 
         $this->assertEquals(array(
-            new ChoiceView(1, '1', 'Jän'),
+            new ChoiceView(1, '1', 'Jän.'),
             new ChoiceView(4, '4', 'Apr.'),
         ), $view['month']->vars['choices']);
     }
@@ -494,7 +495,7 @@ class DateTypeTest extends TestCase
     public function testMonthsOptionLongFormat()
     {
         // we test against "de_AT", so we need the full implementation
-        IntlTestHelper::requireFullIntl($this);
+        IntlTestHelper::requireFullIntl($this, false);
 
         \Locale::setDefault('de_AT');
 
@@ -514,7 +515,7 @@ class DateTypeTest extends TestCase
     public function testMonthsOptionLongFormatWithDifferentTimezone()
     {
         // we test against "de_AT", so we need the full implementation
-        IntlTestHelper::requireFullIntl($this);
+        IntlTestHelper::requireFullIntl($this, false);
 
         \Locale::setDefault('de_AT');
 
@@ -620,7 +621,7 @@ class DateTypeTest extends TestCase
     public function testPassDatePatternToView()
     {
         // we test against "de_AT", so we need the full implementation
-        IntlTestHelper::requireFullIntl($this);
+        IntlTestHelper::requireFullIntl($this, false);
 
         \Locale::setDefault('de_AT');
 
@@ -633,7 +634,7 @@ class DateTypeTest extends TestCase
     public function testPassDatePatternToViewDifferentFormat()
     {
         // we test against "de_AT", so we need the full implementation
-        IntlTestHelper::requireFullIntl($this);
+        IntlTestHelper::requireFullIntl($this, false);
 
         \Locale::setDefault('de_AT');
 
@@ -681,7 +682,7 @@ class DateTypeTest extends TestCase
     public function testDatePatternFormatWithQuotedStrings()
     {
         // we test against "es_ES", so we need the full implementation
-        IntlTestHelper::requireFullIntl($this);
+        IntlTestHelper::requireFullIntl($this, false);
 
         \Locale::setDefault('es_ES');
 

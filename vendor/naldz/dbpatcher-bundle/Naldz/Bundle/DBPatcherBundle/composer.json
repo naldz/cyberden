@@ -1,0 +1,19 @@
+{
+    "name": "naldz/dbpatcher-bundle",
+    "require": {
+        "php": ">=5.3.0",
+        "symfony/symfony": "~3.1",
+        "sensio/framework-extra-bundle": "^3.0.2"
+    },
+    "require-dev": {
+        "symfony/console": "3.0.*",
+        "symfony/finder": "3.0.*",
+        "symfony/process": "3.0.*",
+        "symfony/filesystem": "3.0.*",
+		"phpunit/phpunit": "3.7.*"
+	},
+	"autoload": {
+        "psr-0": { "Naldz\\Bundle\\DBPatcherBundle": "" }
+    },
+	"target-dir": "Naldz/Bundle/DBPatcherBundle"
+}

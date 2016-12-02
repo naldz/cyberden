@@ -13,6 +13,8 @@ namespace Symfony\Component\HttpKernel\Tests\Controller;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Controller\ControllerResolver;
+use Symfony\Component\HttpKernel\Tests\Fixtures\Controller\NullableController;
+use Symfony\Component\HttpKernel\Tests\Fixtures\Controller\VariadicController;
 use Symfony\Component\HttpFoundation\Request;
 
 class ControllerResolverTest extends \PHPUnit_Framework_TestCase
@@ -127,7 +129,7 @@ class ControllerResolverTest extends \PHPUnit_Framework_TestCase
         return array(
             array(1, 'InvalidArgumentException', 'Unable to find controller "1".'),
             array('foo', 'InvalidArgumentException', 'Unable to find controller "foo".'),
-            array('foo::bar', 'InvalidArgumentException', 'Class "foo" does not exist.'),
+            array('oof::bar', 'InvalidArgumentException', 'Class "oof" does not exist.'),
             array('stdClass', 'InvalidArgumentException', 'Unable to find controller "stdClass".'),
             array('Symfony\Component\HttpKernel\Tests\Controller\ControllerTest::staticsAction', 'InvalidArgumentException', 'The controller for URI "/" is not callable. Expected method "staticsAction" on class "Symfony\Component\HttpKernel\Tests\Controller\ControllerTest", did you mean "staticAction"?'),
             array('Symfony\Component\HttpKernel\Tests\Controller\ControllerTest::privateAction', 'InvalidArgumentException', 'The controller for URI "/" is not callable. Method "privateAction" on class "Symfony\Component\HttpKernel\Tests\Controller\ControllerTest" should be public and non-abstract'),
@@ -136,6 +138,9 @@ class ControllerResolverTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @group legacy
+     */
     public function testGetArguments()
     {
         $resolver = $this->createControllerResolver();
@@ -197,6 +202,21 @@ class ControllerResolverTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(array($request), $resolver->getArguments($request, $controller), '->getArguments() injects the request');
     }
 
+    /**
+     * @requires PHP 5.6
+     * @group legacy
+     */
+    public function testGetVariadicArguments()
+    {
+        $resolver = new ControllerResolver();
+
+        $request = Request::create('/');
+        $request->attributes->set('foo', 'foo');
+        $request->attributes->set('bar', array('foo', 'bar'));
+        $controller = array(new VariadicController(), 'action');
+        $this->assertEquals(array('foo', 'foo', 'bar'), $resolver->getArguments($request, $controller));
+    }
+
     public function testCreateControllerCanReturnAnyCallable()
     {
         $mock = $this->getMock('Symfony\Component\HttpKernel\Controller\ControllerResolver', array('createController'));
@@ -205,6 +225,36 @@ class ControllerResolverTest extends \PHPUnit_Framework_TestCase
         $request = Request::create('/');
         $request->attributes->set('_controller', 'foobar');
         $mock->getController($request);
+    }
+
+    /**
+     * @requires PHP 7.1
+     * @group legacy
+     */
+    public function testGetNullableArguments()
+    {
+        $resolver = new ControllerResolver();
+
+        $request = Request::create('/');
+        $request->attributes->set('foo', 'foo');
+        $request->attributes->set('bar', new \stdClass());
+        $request->attributes->set('mandatory', 'mandatory');
+        $controller = array(new NullableController(), 'action');
+        $this->assertEquals(array('foo', new \stdClass(), 'value', 'mandatory'), $resolver->getArguments($request, $controller));
+    }
+
+    /**
+     * @requires PHP 7.1
+     * @group legacy
+     */
+    public function testGetNullableArgumentsWithDefaults()
+    {
+        $resolver = new ControllerResolver();
+
+        $request = Request::create('/');
+        $request->attributes->set('mandatory', 'mandatory');
+        $controller = array(new NullableController(), 'action');
+        $this->assertEquals(array(null, null, 'value', 'mandatory'), $resolver->getArguments($request, $controller));
     }
 
     protected function createControllerResolver(LoggerInterface $logger = null)

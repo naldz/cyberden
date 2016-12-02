@@ -13,7 +13,6 @@ namespace Symfony\Component\Validator\Tests\Constraints;
 
 use Symfony\Component\Validator\Constraints\CardScheme;
 use Symfony\Component\Validator\Constraints\CardSchemeValidator;
-use Symfony\Component\Validator\Validation;
 
 class CardSchemeValidatorTest extends AbstractConstraintValidatorTest
 {
@@ -94,10 +93,15 @@ class CardSchemeValidatorTest extends AbstractConstraintValidatorTest
             array('MAESTRO', '5020507657408074712'),
             array('MAESTRO', '5612559223580173965'),
             array('MAESTRO', '6759744069209'),
-            array('MAESTRO', '6759744069209'),
             array('MAESTRO', '6594371785970435599'),
             array('MASTERCARD', '5555555555554444'),
             array('MASTERCARD', '5105105105105100'),
+            array('MASTERCARD', '2221005555554444'),
+            array('MASTERCARD', '2230000000000000'),
+            array('MASTERCARD', '2300000000000000'),
+            array('MASTERCARD', '2699999999999999'),
+            array('MASTERCARD', '2709999999999999'),
+            array('MASTERCARD', '2720995105105100'),
             array('VISA', '4111111111111111'),
             array('VISA', '4012888888881881'),
             array('VISA', '4222222222222'),
@@ -125,6 +129,8 @@ class CardSchemeValidatorTest extends AbstractConstraintValidatorTest
             array('AMEX', '000000000000', CardScheme::INVALID_FORMAT_ERROR), // a lone number
             array('DINERS', '3056930', CardScheme::INVALID_FORMAT_ERROR), // only first part of the number
             array('DISCOVER', '1117', CardScheme::INVALID_FORMAT_ERROR), // only last 4 digits
+            array('MASTERCARD', '2721001234567890', CardScheme::INVALID_FORMAT_ERROR), // Not assigned yet
+            array('MASTERCARD', '2220991234567890', CardScheme::INVALID_FORMAT_ERROR), // Not assigned yet
         );
     }
 }

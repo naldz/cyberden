@@ -38,7 +38,7 @@ class CacheClearCommand extends ContainerAwareCommand
                 new InputOption('no-optional-warmers', '', InputOption::VALUE_NONE, 'Skip optional cache warmers (faster)'),
             ))
             ->setDescription('Clears the cache')
-            ->setHelp(<<<EOF
+            ->setHelp(<<<'EOF'
 The <info>%command.name%</info> command clears the application cache for a given environment
 and debug mode:
 
@@ -163,13 +163,13 @@ EOF
             file_put_contents($file, $content);
         }
 
-        // fix references to kernel/container related classes
-        $search = $tempKernel->getName().ucfirst($tempKernel->getEnvironment());
-        $replace = $realKernel->getName().ucfirst($realKernel->getEnvironment());
-        foreach (Finder::create()->files()->name($search.'*')->in($warmupDir) as $file) {
-            $content = str_replace($search, $replace, file_get_contents($file));
-            file_put_contents(str_replace($search, $replace, $file), $content);
-            unlink($file);
+        // fix references to container's class
+        $tempContainerClass = get_class($tempKernel->getContainer());
+        $realContainerClass = get_class($realKernel->getContainer());
+        foreach (Finder::create()->files()->name($tempContainerClass.'*')->in($warmupDir) as $file) {
+            $content = str_replace($tempContainerClass, $realContainerClass, file_get_contents($file));
+            file_put_contents($file, $content);
+            rename($file, str_replace(DIRECTORY_SEPARATOR.$tempContainerClass, DIRECTORY_SEPARATOR.$realContainerClass, $file));
         }
 
         // remove temp kernel file after cache warmed up
@@ -192,8 +192,8 @@ EOF
         // the temp kernel class name must have the same length than the real one
         // to avoid the many problems in serialized resources files
         $class = substr($parentClass, 0, -1).'_';
-        // the temp kernel name must be changed too
-        $name = var_export(substr($parent->getName(), 0, -1).'_', true);
+        // the temp container class must be changed too
+        $containerClass = var_export(substr(get_class($parent->getContainer()), 0, -1).'_', true);
         $code = <<<EOF
 <?php
 
@@ -206,11 +206,6 @@ namespace $namespace
             return $cacheDir;
         }
 
-        public function getName()
-        {
-            return $name;
-        }
-
         public function getRootDir()
         {
             return $rootDir;
@@ -219,6 +214,11 @@ namespace $namespace
         public function getLogDir()
         {
             return $logDir;
+        }
+
+        protected function getContainerClass()
+        {
+            return $containerClass;
         }
 
         protected function buildContainer()

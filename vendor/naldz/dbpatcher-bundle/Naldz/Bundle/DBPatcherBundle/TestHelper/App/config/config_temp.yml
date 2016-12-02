@@ -1,0 +1,8 @@
+imports:
+    - { resource: config.yml }
+
+#DBPatcher configuration
+db_patcher:
+    patch_dir: "%kernel.root_dir%/../Fixture/temp_patch"
+    dsn: "sample:dsn"
+    driver_client_path: '/path/to/driver/client'

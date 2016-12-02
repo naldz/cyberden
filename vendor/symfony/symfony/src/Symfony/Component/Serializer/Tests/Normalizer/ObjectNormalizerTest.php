@@ -12,12 +12,18 @@
 namespace Symfony\Component\Serializer\Tests\Normalizer;
 
 use Doctrine\Common\Annotations\AnnotationReader;
+use Symfony\Component\PropertyInfo\Extractor\PhpDocExtractor;
+use Symfony\Component\PropertyInfo\Extractor\ReflectionExtractor;
+use Symfony\Component\PropertyInfo\PropertyInfoExtractor;
 use Symfony\Component\Serializer\NameConverter\CamelCaseToSnakeCaseNameConverter;
+use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Tests\Fixtures\CircularReferenceDummy;
+use Symfony\Component\Serializer\Tests\Fixtures\MaxDepthDummy;
 use Symfony\Component\Serializer\Tests\Fixtures\SiblingHolder;
 use Symfony\Component\Serializer\Mapping\Loader\AnnotationLoader;
 use Symfony\Component\Serializer\Mapping\Factory\ClassMetadataFactory;
@@ -169,7 +175,7 @@ class ObjectNormalizerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(array(
             'bar' => 'bar',
-        ), $this->normalizer->normalize($obj, null, array('groups' => array('c'))));
+        ), $this->normalizer->normalize($obj, null, array(ObjectNormalizer::GROUPS => array('c'))));
 
         $this->assertEquals(array(
             'symfony' => 'symfony',
@@ -178,7 +184,7 @@ class ObjectNormalizerTest extends \PHPUnit_Framework_TestCase
             'bar' => 'bar',
             'kevin' => 'kevin',
             'coopTilleuls' => 'coopTilleuls',
-        ), $this->normalizer->normalize($obj, null, array('groups' => array('a', 'c'))));
+        ), $this->normalizer->normalize($obj, null, array(ObjectNormalizer::GROUPS => array('a', 'c'))));
     }
 
     public function testGroupsDenormalize()
@@ -196,7 +202,7 @@ class ObjectNormalizerTest extends \PHPUnit_Framework_TestCase
             $toNormalize,
             'Symfony\Component\Serializer\Tests\Fixtures\GroupDummy',
             null,
-            array('groups' => array('a'))
+            array(ObjectNormalizer::GROUPS => array('a'))
         );
         $this->assertEquals($obj, $normalized);
 
@@ -206,7 +212,7 @@ class ObjectNormalizerTest extends \PHPUnit_Framework_TestCase
             $toNormalize,
             'Symfony\Component\Serializer\Tests\Fixtures\GroupDummy',
             null,
-            array('groups' => array('a', 'b'))
+            array(ObjectNormalizer::GROUPS => array('a', 'b'))
         );
         $this->assertEquals($obj, $normalized);
     }
@@ -240,7 +246,7 @@ class ObjectNormalizerTest extends \PHPUnit_Framework_TestCase
                 'foo_bar' => '@dunglas',
                 'symfony' => '@coopTilleuls',
             ),
-            $this->normalizer->normalize($obj, null, array('groups' => array('name_converter')))
+            $this->normalizer->normalize($obj, null, array(ObjectNormalizer::GROUPS => array('name_converter')))
         );
     }
 
@@ -261,7 +267,7 @@ class ObjectNormalizerTest extends \PHPUnit_Framework_TestCase
                 'foo_bar' => '@dunglas',
                 'symfony' => '@coopTilleuls',
                 'coop_tilleuls' => 'les-tilleuls.coop',
-            ), 'Symfony\Component\Serializer\Tests\Fixtures\GroupDummy', null, array('groups' => array('name_converter')))
+            ), 'Symfony\Component\Serializer\Tests\Fixtures\GroupDummy', null, array(ObjectNormalizer::GROUPS => array('name_converter')))
         );
     }
 
@@ -308,14 +314,27 @@ class ObjectNormalizerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testIgnoredAttributesDenormalize()
+    {
+        $this->normalizer->setIgnoredAttributes(array('fooBar', 'bar', 'baz'));
+
+        $obj = new ObjectDummy();
+        $obj->setFoo('foo');
+
+        $this->assertEquals(
+            $obj,
+            $this->normalizer->denormalize(array('fooBar' => 'fooBar', 'foo' => 'foo', 'baz' => 'baz'), __NAMESPACE__.'\ObjectDummy')
+        );
+    }
+
     public function provideCallbacks()
     {
         return array(
             array(
                 array(
                     'bar' => function ($bar) {
-                            return 'baz';
-                        },
+                        return 'baz';
+                    },
                 ),
                 'baz',
                 array('foo' => '', 'bar' => 'baz', 'baz' => true),
@@ -324,8 +343,8 @@ class ObjectNormalizerTest extends \PHPUnit_Framework_TestCase
             array(
                 array(
                     'bar' => function ($bar) {
-                            return;
-                        },
+                        return;
+                    },
                 ),
                 'baz',
                 array('foo' => '', 'bar' => null, 'baz' => true),
@@ -334,8 +353,8 @@ class ObjectNormalizerTest extends \PHPUnit_Framework_TestCase
             array(
                 array(
                     'bar' => function ($bar) {
-                            return $bar->format('d-m-Y H:i:s');
-                        },
+                        return $bar->format('d-m-Y H:i:s');
+                    },
                 ),
                 new \DateTime('2011-09-10 06:30:00'),
                 array('foo' => '', 'bar' => '10-09-2011 06:30:00', 'baz' => true),
@@ -344,13 +363,13 @@ class ObjectNormalizerTest extends \PHPUnit_Framework_TestCase
             array(
                 array(
                     'bar' => function ($bars) {
-                            $foos = '';
-                            foreach ($bars as $bar) {
-                                $foos .= $bar->getFoo();
-                            }
+                        $foos = '';
+                        foreach ($bars as $bar) {
+                            $foos .= $bar->getFoo();
+                        }
 
-                            return $foos;
-                        },
+                        return $foos;
+                    },
                 ),
                 array(new ObjectConstructorDummy('baz', '', false), new ObjectConstructorDummy('quux', '', false)),
                 array('foo' => '', 'bar' => 'bazquux', 'baz' => true),
@@ -359,8 +378,8 @@ class ObjectNormalizerTest extends \PHPUnit_Framework_TestCase
             array(
                 array(
                     'bar' => function ($bars) {
-                            return count($bars);
-                        },
+                        return count($bars);
+                    },
                 ),
                 array(new ObjectConstructorDummy('baz', '', false), new ObjectConstructorDummy('quux', '', false)),
                 array('foo' => '', 'bar' => 2, 'baz' => true),
@@ -371,7 +390,7 @@ class ObjectNormalizerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Symfony\Component\Serializer\Exception\LogicException
-     * @expectedExceptionMessage Cannot normalize attribute "object" because injected serializer is not a normalizer
+     * @expectedExceptionMessage Cannot normalize attribute "object" because the injected serializer is not a normalizer
      */
     public function testUnableToNormalizeObjectAttribute()
     {
@@ -444,6 +463,132 @@ class ObjectNormalizerTest extends \PHPUnit_Framework_TestCase
     public function testNormalizeStatic()
     {
         $this->assertEquals(array('foo' => 'K'), $this->normalizer->normalize(new ObjectWithStaticPropertiesAndMethods()));
+    }
+
+    public function testNormalizeNotSerializableContext()
+    {
+        $objectDummy = new ObjectDummy();
+        $expected = array(
+            'foo' => null,
+            'baz' => null,
+            'fooBar' => '',
+            'camelCase' => null,
+            'object' => null,
+            'bar' => null,
+        );
+
+        $this->assertEquals($expected, $this->normalizer->normalize($objectDummy, null, array('not_serializable' => function () {
+        })));
+    }
+
+    public function testMaxDepth()
+    {
+        $classMetadataFactory = new ClassMetadataFactory(new AnnotationLoader(new AnnotationReader()));
+        $this->normalizer = new ObjectNormalizer($classMetadataFactory);
+        $serializer = new Serializer(array($this->normalizer));
+        $this->normalizer->setSerializer($serializer);
+
+        $level1 = new MaxDepthDummy();
+        $level1->foo = 'level1';
+
+        $level2 = new MaxDepthDummy();
+        $level2->foo = 'level2';
+        $level1->child = $level2;
+
+        $level3 = new MaxDepthDummy();
+        $level3->foo = 'level3';
+        $level2->child = $level3;
+
+        $result = $serializer->normalize($level1, null, array(ObjectNormalizer::ENABLE_MAX_DEPTH => true));
+
+        $expected = array(
+            'bar' => null,
+            'foo' => 'level1',
+            'child' => array(
+                    'bar' => null,
+                    'foo' => 'level2',
+                    'child' => array(
+                            'bar' => null,
+                            'child' => null,
+                        ),
+                ),
+        );
+
+        $this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @expectedException \Symfony\Component\Serializer\Exception\UnexpectedValueException
+     */
+    public function testThrowUnexpectedValueException()
+    {
+        $this->normalizer->denormalize(array('foo' => 'bar'), ObjectTypeHinted::class);
+    }
+
+    public function testDenomalizeRecursive()
+    {
+        $extractor = new PropertyInfoExtractor(array(), array(new PhpDocExtractor(), new ReflectionExtractor()));
+        $normalizer = new ObjectNormalizer(null, null, null, $extractor);
+        $serializer = new Serializer(array(new ArrayDenormalizer(), new DateTimeNormalizer(), $normalizer));
+
+        $obj = $serializer->denormalize(array(
+            'inner' => array('foo' => 'foo', 'bar' => 'bar'),
+            'date' => '1988/01/21',
+            'inners' => array(array('foo' => 1), array('foo' => 2)),
+        ), ObjectOuter::class);
+
+        $this->assertEquals('foo', $obj->getInner()->foo);
+        $this->assertEquals('bar', $obj->getInner()->bar);
+        $this->assertEquals('1988-01-21', $obj->getDate()->format('Y-m-d'));
+        $this->assertEquals(1, $obj->getInners()[0]->foo);
+        $this->assertEquals(2, $obj->getInners()[1]->foo);
+    }
+
+    /**
+     * @expectedException \Symfony\Component\Serializer\Exception\UnexpectedValueException
+     * @expectedExceptionMessage The type of the "date" attribute for class "Symfony\Component\Serializer\Tests\Normalizer\ObjectOuter" must be one of "DateTimeInterface" ("string" given).
+     */
+    public function testRejectInvalidType()
+    {
+        $normalizer = new ObjectNormalizer(null, null, null, new ReflectionExtractor());
+        $serializer = new Serializer(array($normalizer));
+
+        $serializer->denormalize(array('date' => 'foo'), ObjectOuter::class);
+    }
+
+    /**
+     * @expectedException \Symfony\Component\Serializer\Exception\UnexpectedValueException
+     * @expectedExceptionMessage The type of the key "a" must be "int" ("string" given).
+     */
+    public function testRejectInvalidKey()
+    {
+        $extractor = new PropertyInfoExtractor(array(), array(new PhpDocExtractor(), new ReflectionExtractor()));
+        $normalizer = new ObjectNormalizer(null, null, null, $extractor);
+        $serializer = new Serializer(array(new ArrayDenormalizer(), new DateTimeNormalizer(), $normalizer));
+
+        $serializer->denormalize(array('inners' => array('a' => array('foo' => 1))), ObjectOuter::class);
+    }
+
+    public function testExtractAttributesRespectsFormat()
+    {
+        $normalizer = new FormatAndContextAwareNormalizer();
+
+        $data = new ObjectDummy();
+        $data->setFoo('bar');
+        $data->bar = 'foo';
+
+        $this->assertSame(array('foo' => 'bar', 'bar' => 'foo'), $normalizer->normalize($data, 'foo_and_bar_included'));
+    }
+
+    public function testExtractAttributesRespectsContext()
+    {
+        $normalizer = new FormatAndContextAwareNormalizer();
+
+        $data = new ObjectDummy();
+        $data->setFoo('bar');
+        $data->bar = 'foo';
+
+        $this->assertSame(array('foo' => 'bar', 'bar' => 'foo'), $normalizer->normalize($data, null, array('include_foo_and_bar' => true)));
     }
 }
 
@@ -603,5 +748,75 @@ class ObjectWithStaticPropertiesAndMethods
     public static function getBaz()
     {
         return 'L';
+    }
+}
+
+class ObjectTypeHinted
+{
+    public function setFoo(array $f)
+    {
+    }
+}
+
+class ObjectOuter
+{
+    private $inner;
+    private $date;
+
+    /**
+     * @var ObjectInner[]
+     */
+    private $inners;
+
+    public function getInner()
+    {
+        return $this->inner;
+    }
+
+    public function setInner(ObjectInner $inner)
+    {
+        $this->inner = $inner;
+    }
+
+    public function setDate(\DateTimeInterface $date)
+    {
+        $this->date = $date;
+    }
+
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    public function setInners(array $inners)
+    {
+        $this->inners = $inners;
+    }
+
+    public function getInners()
+    {
+        return $this->inners;
+    }
+}
+
+class ObjectInner
+{
+    public $foo;
+    public $bar;
+}
+
+class FormatAndContextAwareNormalizer extends ObjectNormalizer
+{
+    protected function isAllowedAttribute($classOrObject, $attribute, $format = null, array $context = array())
+    {
+        if (in_array($attribute, array('foo', 'bar')) && 'foo_and_bar_included' === $format) {
+            return true;
+        }
+
+        if (in_array($attribute, array('foo', 'bar')) && isset($context['include_foo_and_bar']) && true === $context['include_foo_and_bar']) {
+            return true;
+        }
+
+        return false;
     }
 }

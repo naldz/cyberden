@@ -365,11 +365,12 @@ abstract class AbstractIntlDateFormatterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('GMT+03:00', $formatter->format(0));
     }
 
-    /**
-     * @requires extension intl
-     */
     public function testFormatWithIntlTimeZone()
     {
+        if (!extension_loaded('intl')) {
+            $this->markTestSkipped('Extension intl is required.');
+        }
+
         $formatter = $this->getDateFormatter('en', IntlDateFormatter::MEDIUM, IntlDateFormatter::SHORT, \IntlTimeZone::createTimeZone('GMT+03:00'), IntlDateFormatter::GREGORIAN, 'zzzz');
 
         $this->assertEquals('GMT+03:00', $formatter->format(0));
@@ -831,9 +832,7 @@ abstract class AbstractIntlDateFormatterTest extends \PHPUnit_Framework_TestCase
     {
         $dateTime = new \DateTime();
         $dateTime->setTimestamp(null === $timestamp ? time() : $timestamp);
-        if (null !== $timeZone) {
-            $dateTime->setTimezone(new \DateTimeZone($timeZone));
-        }
+        $dateTime->setTimezone(new \DateTimeZone($timeZone ?: getenv('TZ') ?: 'UTC'));
 
         return $dateTime;
     }

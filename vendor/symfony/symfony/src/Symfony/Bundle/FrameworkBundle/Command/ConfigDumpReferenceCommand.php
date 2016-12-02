@@ -40,7 +40,7 @@ class ConfigDumpReferenceCommand extends AbstractConfigCommand
                 new InputOption('format', null, InputOption::VALUE_REQUIRED, 'The output format (yaml or xml)', 'yaml'),
             ))
             ->setDescription('Dumps the default configuration for an extension')
-            ->setHelp(<<<EOF
+            ->setHelp(<<<'EOF'
 The <info>%command.name%</info> command dumps the default configuration for an
 extension/bundle.
 
@@ -68,12 +68,10 @@ EOF
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $io = new SymfonyStyle($input, $output);
-        $name = $input->getArgument('name');
 
-        if (empty($name)) {
-            $io->comment('Provide the name of a bundle as the first argument of this command to dump its default configuration.');
-            $io->newLine();
-            $this->listBundles($output);
+        if (null === $name = $input->getArgument('name')) {
+            $this->listBundles($io);
+            $io->comment('Provide the name of a bundle as the first argument of this command to dump its default configuration. (e.g. <comment>config:dump-reference FrameworkBundle</comment>)');
 
             return;
         }

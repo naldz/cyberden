@@ -1,0 +1,8 @@
+imports:
+    - { resource: config.yml }
+
+#DBPatcher configuration
+db_patcher:
+    patch_dir: "%kernel.root_dir%/dbpatch"
+    dsn: 'sqlite:%kernel.root_dir%/database/testdb.sqlite'
+    driver_client_path: '/opt/local/bin/sqlite3'

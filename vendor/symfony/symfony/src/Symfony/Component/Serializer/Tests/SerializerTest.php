@@ -12,6 +12,10 @@
 namespace Symfony\Component\Serializer\Tests;
 
 use Symfony\Component\Serializer\Normalizer\ArrayDenormalizer;
+use Symfony\Component\Serializer\Normalizer\DenormalizerAwareInterface;
+use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerAwareInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Normalizer\PropertyNormalizer;
 use Symfony\Component\Serializer\Serializer;
@@ -94,6 +98,50 @@ class SerializerTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($serializer->normalize(new \ArrayObject(array('c', 'd'))));
         $this->assertNull($serializer->normalize(array()));
         $this->assertNull($serializer->normalize('test'));
+    }
+
+    public function testNormalizeWithSupportOnData()
+    {
+        $normalizer1 = $this->getMock('Symfony\Component\Serializer\Normalizer\NormalizerInterface');
+        $normalizer1->method('supportsNormalization')
+            ->willReturnCallback(function ($data, $format) {
+                return isset($data->test);
+            });
+        $normalizer1->method('normalize')->willReturn('test1');
+
+        $normalizer2 = $this->getMock('Symfony\Component\Serializer\Normalizer\NormalizerInterface');
+        $normalizer2->method('supportsNormalization')
+            ->willReturn(true);
+        $normalizer2->method('normalize')->willReturn('test2');
+
+        $serializer = new Serializer(array($normalizer1, $normalizer2));
+
+        $data = new \stdClass();
+        $data->test = true;
+        $this->assertEquals('test1', $serializer->normalize($data));
+
+        $this->assertEquals('test2', $serializer->normalize(new \stdClass()));
+    }
+
+    public function testDenormalizeWithSupportOnData()
+    {
+        $denormalizer1 = $this->getMock('Symfony\Component\Serializer\Normalizer\DenormalizerInterface');
+        $denormalizer1->method('supportsDenormalization')
+            ->willReturnCallback(function ($data, $type, $format) {
+                return isset($data['test1']);
+            });
+        $denormalizer1->method('denormalize')->willReturn('test1');
+
+        $denormalizer2 = $this->getMock('Symfony\Component\Serializer\Normalizer\DenormalizerInterface');
+        $denormalizer2->method('supportsDenormalization')
+            ->willReturn(true);
+        $denormalizer2->method('denormalize')->willReturn('test2');
+
+        $serializer = new Serializer(array($denormalizer1, $denormalizer2));
+
+        $this->assertEquals('test1', $serializer->denormalize(array('test1' => true), 'test'));
+
+        $this->assertEquals('test2', $serializer->denormalize(array(), 'test'));
     }
 
     public function testSerialize()
@@ -267,6 +315,26 @@ class SerializerTest extends \PHPUnit_Framework_TestCase
             $expectedData,
             $serializer->deserialize($jsonData, __NAMESPACE__.'\Model[]', 'json')
         );
+    }
+
+    public function testNormalizerAware()
+    {
+        $normalizerAware = $this->getMock(NormalizerAwareInterface::class);
+        $normalizerAware->expects($this->once())
+            ->method('setNormalizer')
+            ->with($this->isInstanceOf(NormalizerInterface::class));
+
+        new Serializer(array($normalizerAware));
+    }
+
+    public function testDenormalizerAware()
+    {
+        $denormalizerAware = $this->getMock(DenormalizerAwareInterface::class);
+        $denormalizerAware->expects($this->once())
+            ->method('setDenormalizer')
+            ->with($this->isInstanceOf(DenormalizerInterface::class));
+
+        new Serializer(array($denormalizerAware));
     }
 }
 

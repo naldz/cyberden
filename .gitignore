@@ -18,8 +18,8 @@ app/config/parameters.ini
 app/config/parameters.yml
 
 # Cache
-app/cache/*
-app/logs/*
+var/cache/*
+var/logs/*
 
 # Propel
 app/propel/generated-schemas/*

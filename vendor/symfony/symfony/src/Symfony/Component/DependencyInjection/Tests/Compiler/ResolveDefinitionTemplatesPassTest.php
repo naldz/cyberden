@@ -11,7 +11,6 @@
 
 namespace Symfony\Component\DependencyInjection\Tests\Compiler;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Compiler\ResolveDefinitionTemplatesPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
@@ -211,6 +210,36 @@ class ResolveDefinitionTemplatesPassTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($container->getDefinition('child1')->isLazy());
     }
 
+    public function testSetAutowiredOnServiceHasParent()
+    {
+        $container = new ContainerBuilder();
+
+        $container->register('parent', 'stdClass');
+
+        $container->setDefinition('child1', new DefinitionDecorator('parent'))
+            ->setAutowired(true)
+        ;
+
+        $this->process($container);
+
+        $this->assertTrue($container->getDefinition('child1')->isAutowired());
+    }
+
+    public function testSetAutowiredOnServiceIsParent()
+    {
+        $container = new ContainerBuilder();
+
+        $container->register('parent', 'stdClass')
+            ->setAutowired(true)
+        ;
+
+        $container->setDefinition('child1', new DefinitionDecorator('parent'));
+
+        $this->process($container);
+
+        $this->assertTrue($container->getDefinition('child1')->isAutowired());
+    }
+
     public function testDeepDefinitionsResolving()
     {
         $container = new ContainerBuilder();
@@ -254,10 +283,12 @@ class ResolveDefinitionTemplatesPassTest extends \PHPUnit_Framework_TestCase
         $container->register('parent', 'stdClass');
 
         $container->setDefinition('child1', new DefinitionDecorator('parent'))
-            ->setDecoratedService('foo', 'foo_inner')
+            ->setDecoratedService('foo', 'foo_inner', 5)
         ;
 
-        $this->assertEquals(array('foo', 'foo_inner', 0), $container->getDefinition('child1')->getDecoratedService());
+        $this->process($container);
+
+        $this->assertEquals(array('foo', 'foo_inner', 5), $container->getDefinition('child1')->getDecoratedService());
     }
 
     public function testDecoratedServiceCopiesDeprecatedStatusFromParent()
@@ -306,8 +337,25 @@ class ResolveDefinitionTemplatesPassTest extends \PHPUnit_Framework_TestCase
 
         $this->process($container);
 
+        $childDef = $container->getDefinition('child');
+        $this->assertEquals(array('Foo', 'Bar'), $childDef->getAutowiringTypes());
+
+        $parentDef = $container->getDefinition('parent');
+        $this->assertSame(array('Foo'), $parentDef->getAutowiringTypes());
+    }
+
+    public function testProcessResolvesAliases()
+    {
+        $container = new ContainerBuilder();
+
+        $container->register('parent', 'ParentClass');
+        $container->setAlias('parent_alias', 'parent');
+        $container->setDefinition('child', new DefinitionDecorator('parent_alias'));
+
+        $this->process($container);
+
         $def = $container->getDefinition('child');
-        $this->assertEquals(array('Foo', 'Bar'), $def->getAutowiringTypes());
+        $this->assertSame('ParentClass', $def->getClass());
     }
 
     protected function process(ContainerBuilder $container)

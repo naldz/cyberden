@@ -71,8 +71,6 @@ class Container implements ResettableContainerInterface
     private $underscoreMap = array('_' => '', '.' => '_', '\\' => '_');
 
     /**
-     * Constructor.
-     *
      * @param ParameterBagInterface $parameterBag A ParameterBagInterface instance
      */
     public function __construct(ParameterBagInterface $parameterBag = null)
@@ -169,6 +167,10 @@ class Container implements ResettableContainerInterface
             throw new InvalidArgumentException('You cannot set service "service_container".');
         }
 
+        if (isset($this->aliases[$id])) {
+            unset($this->aliases[$id]);
+        }
+
         $this->services[$id] = $service;
 
         if (null === $service) {
@@ -189,7 +191,6 @@ class Container implements ResettableContainerInterface
             if ('service_container' === $id
                 || isset($this->aliases[$id])
                 || isset($this->services[$id])
-                || array_key_exists($id, $this->services)
             ) {
                 return true;
             }
@@ -232,7 +233,7 @@ class Container implements ResettableContainerInterface
                 $id = $this->aliases[$id];
             }
             // Re-use shared service instance if it exists.
-            if (isset($this->services[$id]) || array_key_exists($id, $this->services)) {
+            if (isset($this->services[$id])) {
                 return $this->services[$id];
             }
 
@@ -254,10 +255,10 @@ class Container implements ResettableContainerInterface
                     }
 
                     $alternatives = array();
-                    foreach ($this->services as $key => $associatedService) {
-                        $lev = levenshtein($id, $key);
-                        if ($lev <= strlen($id) / 3 || false !== strpos($key, $id)) {
-                            $alternatives[] = $key;
+                    foreach ($this->getServiceIds() as $knownId) {
+                        $lev = levenshtein($id, $knownId);
+                        if ($lev <= strlen($id) / 3 || false !== strpos($knownId, $id)) {
+                            $alternatives[] = $knownId;
                         }
                     }
 
@@ -302,7 +303,7 @@ class Container implements ResettableContainerInterface
             $id = $this->aliases[$id];
         }
 
-        return isset($this->services[$id]) || array_key_exists($id, $this->services);
+        return isset($this->services[$id]);
     }
 
     /**
@@ -321,9 +322,8 @@ class Container implements ResettableContainerInterface
     public function getServiceIds()
     {
         $ids = array();
-        $r = new \ReflectionClass($this);
-        foreach ($r->getMethods() as $method) {
-            if (preg_match('/^get(.+)Service$/', $method->name, $match)) {
+        foreach (get_class_methods($this) as $method) {
+            if (preg_match('/^get(.+)Service$/', $method, $match)) {
                 $ids[] = self::underscore($match[1]);
             }
         }
@@ -353,7 +353,7 @@ class Container implements ResettableContainerInterface
      */
     public static function underscore($id)
     {
-        return strtolower(preg_replace(array('/([A-Z]+)([A-Z][a-z])/', '/([a-z\d])([A-Z])/'), array('\\1_\\2', '\\1_\\2'), strtr($id, '_', '.')));
+        return strtolower(preg_replace(array('/([A-Z]+)([A-Z][a-z])/', '/([a-z\d])([A-Z])/'), array('\\1_\\2', '\\1_\\2'), str_replace('_', '.', $id)));
     }
 
     private function __clone()
