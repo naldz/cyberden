@@ -1,6 +1,18 @@
 UPGRADE FROM 3.x to 4.0
 =======================
 
+Console
+-------
+
+ * Setting unknown style options is not supported anymore and throws an
+   exception.
+
+Debug
+-----
+
+ * `FlattenException::getTrace()` now returns additional type descriptions
+   `integer` and `float`.
+
 DependencyInjection
 -------------------
 
@@ -8,6 +20,22 @@ DependencyInjection
    exception.
 
  * Using unsupported options to configure service aliases raises an exception.
+
+ * Setting or unsetting a private service with the `Container::set()` method is
+   no longer supported. Only public services can be set or unset.
+
+ * Checking the existence of a private service with the `Container::has()`
+   method is no longer supported and will return `false`.
+
+ * Requesting a private service with the `Container::get()` method is no longer
+   supported.
+
+ExpressionLanguage
+----------
+
+ * The ability to pass a `ParserCacheInterface` instance to the `ExpressionLanguage`
+   class has been removed. You should use the `CacheItemPoolInterface` interface
+   instead.
 
 Form
 ----
@@ -38,6 +66,25 @@ Form
 
  * Caching of the loaded `ChoiceListInterface` in the `LazyChoiceList` has been removed,
    it must be cached in the `ChoiceLoaderInterface` implementation instead.
+
+ * Calling `isValid()` on a `Form` instance before submitting it is not supported
+   anymore and raises an exception.
+
+   Before:
+
+   ```php
+   if ($form->isValid()) {
+       // ...
+   }
+   ```
+
+   After:
+
+   ```php
+   if ($form->isSubmitted() && $form->isValid()) {
+       // ...
+   }
+   ```
 
 FrameworkBundle
 ---------------
@@ -77,9 +124,32 @@ FrameworkBundle
     - `"form.type.submit"`
     - `"form.type.reset"`
 
- * The `framework.serializer.cache` option and the service
-   `serializer.mapping.cache.apc` have been removed. APCu should now
-   be automatically used when available.
+ * The `framework.serializer.cache` option and the services
+   `serializer.mapping.cache.apc` and `serializer.mapping.cache.doctrine.apc`
+   have been removed. APCu should now be automatically used when available.
+
+HttpFoundation
+---------------
+
+ * Extending the following methods of `Response`
+   is no longer possible (these methods are now `final`):
+
+    - `setDate`/`getDate`
+    - `setExpires`/`getExpires`
+    - `setLastModified`/`getLastModified`
+    - `setProtocolVersion`/`getProtocolVersion`
+    - `setStatusCode`/`getStatusCode`
+    - `setCharset`/`getCharset`
+    - `setPrivate`/`setPublic`
+    - `getAge`
+    - `getMaxAge`/`setMaxAge`
+    - `setSharedMaxAge`
+    - `getTtl`/`setTtl`
+    - `setClientTtl`
+    - `getEtag`/`setEtag`
+    - `hasVary`/`getVary`/`setVary`
+    - `isInvalid`/`isSuccessful`/`isRedirection`/`isClientError`/`isServerError`
+    - `isOk`/`isForbidden`/`isNotFound`/`isRedirect`/`isEmpty`
 
 HttpKernel
 ----------
@@ -91,6 +161,8 @@ HttpKernel
  * The `ControllerResolver::getArguments()` method has been removed. If you
    have your own `ControllerResolverInterface` implementation, you should
    inject an `ArgumentResolverInterface` instance.
+
+ * The `DataCollector::varToString()` method has been removed in favor of `cloneVar()`.
 
 Serializer
 ----------
@@ -104,8 +176,18 @@ Translation
 
  * Removed the backup feature from the file dumper classes.
 
+TwigBridge
+----------
+
+ * The possibility to inject the Form Twig Renderer into the form extension
+   has been removed. Inject it into the `TwigRendererEngine` instead.
+
 Yaml
 ----
+
+ * Mappings with a colon (`:`) that is not followed by a whitespace are not
+   supported anymore and lead to a `ParseException`(e.g. `foo:bar` must be
+   `foo: bar`).
 
  * Starting an unquoted string with `%` leads to a `ParseException`.
 
@@ -190,7 +272,40 @@ Yaml
  * The `!!php/object` tag to indicate dumped PHP objects was removed in favor of
    the `!php/object` tag.
 
+ * Duplicate mapping keys lead to a `ParseException`.
+
 Validator
 ---------
 
  * The `DateTimeValidator::PATTERN` constant was removed.
+
+ * `Tests\Constraints\AbstractConstraintValidatorTest` has been removed in
+   favor of `Test\ConstraintValidatorTestCase`.
+
+   Before:
+
+   ```php
+   // ...
+   use Symfony\Component\Validator\Tests\Constraints\AbstractConstraintValidatorTest;
+
+   class MyCustomValidatorTest extends AbstractConstraintValidatorTest
+   {
+       // ...
+   }
+   ```
+
+   After:
+
+   ```php
+   // ...
+   use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
+
+   class MyCustomValidatorTest extends ConstraintValidatorTestCase
+   {
+       // ...
+   }
+   ```
+   
+ * The default value of the strict option of the `Choice` Constraint has been
+   changed to `true` as of 4.0. If you need the the previous behaviour ensure to 
+   set the option to `false`.

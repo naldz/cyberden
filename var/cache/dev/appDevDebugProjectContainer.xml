@@ -17,7 +17,7 @@
       <parameter key="SensioFrameworkExtraBundle">Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle</parameter>
       <parameter key="DBPatcherBundle">Naldz\Bundle\DBPatcherBundle\DBPatcherBundle</parameter>
       <parameter key="PropelBundle">Propel\Bundle\PropelBundle\PropelBundle</parameter>
-      <parameter key="MainBundle">MainBundle\MainBundle</parameter>
+      <parameter key="CyberdenBundle">CyberdenBundle\CyberdenBundle</parameter>
       <parameter key="DebugBundle">Symfony\Bundle\DebugBundle\DebugBundle</parameter>
       <parameter key="WebProfilerBundle">Symfony\Bundle\WebProfilerBundle\WebProfilerBundle</parameter>
       <parameter key="SensioDistributionBundle">Sensio\Bundle\DistributionBundle\SensioDistributionBundle</parameter>
@@ -44,6 +44,8 @@
     <parameter key="kernel.trusted_hosts" type="collection"/>
     <parameter key="kernel.trusted_proxies" type="collection"/>
     <parameter key="kernel.default_locale">en</parameter>
+    <parameter key="templating.helper.code.file_link_format">null</parameter>
+    <parameter key="debug.file_link_format">null</parameter>
     <parameter key="session.metadata.storage_key">_sf2_meta</parameter>
     <parameter key="session.storage.options" type="collection">
       <parameter key="cookie_httponly">true</parameter>
@@ -53,16 +55,18 @@
     <parameter key="session.metadata.update_threshold">0</parameter>
     <parameter key="form.type_extension.csrf.enabled">true</parameter>
     <parameter key="form.type_extension.csrf.field_name">_token</parameter>
-    <parameter key="templating.helper.code.file_link_format">null</parameter>
     <parameter key="templating.loader.cache.path">null</parameter>
     <parameter key="templating.engines" type="collection">
       <parameter>twig</parameter>
     </parameter>
     <parameter key="validator.mapping.cache.prefix"></parameter>
+    <parameter key="validator.mapping.cache.file">/Volumes/DevDisk/projects/cyberden/cyberden/var/cache/dev/validation.php</parameter>
     <parameter key="validator.translation_domain">validators</parameter>
     <parameter key="profiler_listener.only_exceptions">false</parameter>
     <parameter key="profiler_listener.only_master_requests">false</parameter>
     <parameter key="profiler.storage.dsn">file:/Volumes/DevDisk/projects/cyberden/cyberden/var/cache/dev/profiler</parameter>
+    <parameter key="debug.error_handler.throw_at">-1</parameter>
+    <parameter key="debug.container.dump">/Volumes/DevDisk/projects/cyberden/cyberden/var/cache/dev/appDevDebugProjectContainer.xml</parameter>
     <parameter key="router.options.generator_class">Symfony\Component\Routing\Generator\UrlGenerator</parameter>
     <parameter key="router.options.generator_base_class">Symfony\Component\Routing\Generator\UrlGenerator</parameter>
     <parameter key="router.options.generator_dumper_class">Symfony\Component\Routing\Generator\Dumper\PhpGeneratorDumper</parameter>
@@ -78,8 +82,6 @@
     <parameter key="router.cache_class_prefix">appDevDebugProjectContainer</parameter>
     <parameter key="request_listener.http_port">80</parameter>
     <parameter key="request_listener.https_port">443</parameter>
-    <parameter key="debug.error_handler.throw_at">-1</parameter>
-    <parameter key="debug.container.dump">/Volumes/DevDisk/projects/cyberden/cyberden/var/cache/dev/appDevDebugProjectContainer.xml</parameter>
     <parameter key="security.authentication.trust_resolver.anonymous_class">Symfony\Component\Security\Core\Authentication\Token\AnonymousToken</parameter>
     <parameter key="security.authentication.trust_resolver.rememberme_class">Symfony\Component\Security\Core\Authentication\Token\RememberMeToken</parameter>
     <parameter key="security.role_hierarchy.roles" type="collection"/>
@@ -246,7 +248,7 @@
     <parameter key="propel.configuration" type="collection">
       <parameter key="database" type="collection">
         <parameter key="connections" type="collection">
-          <parameter key="master" type="collection">
+          <parameter key="cyberden" type="collection">
             <parameter key="adapter">mysql</parameter>
             <parameter key="user">root</parameter>
             <parameter key="password">password</parameter>
@@ -282,13 +284,13 @@
       </parameter>
       <parameter key="exclude_tables" type="collection"/>
       <parameter key="paths" type="collection">
-        <parameter key="projectDir">/Volumes/DevDisk/projects/cyberden/cyberden</parameter>
-        <parameter key="schemaDir">/Volumes/DevDisk/projects/cyberden/cyberden</parameter>
-        <parameter key="outputDir">/Volumes/DevDisk/projects/cyberden/cyberden</parameter>
-        <parameter key="phpDir">/Volumes/DevDisk/projects/cyberden/cyberden/generated-classes</parameter>
-        <parameter key="phpConfDir">/Volumes/DevDisk/projects/cyberden/cyberden/generated-conf</parameter>
-        <parameter key="sqlDir">/Volumes/DevDisk/projects/cyberden/cyberden/generated-sql</parameter>
-        <parameter key="migrationDir">/Volumes/DevDisk/projects/cyberden/cyberden/generated-migrations</parameter>
+        <parameter key="projectDir">/Volumes/DevDisk/projects/cyberden/cyberden/web</parameter>
+        <parameter key="schemaDir">/Volumes/DevDisk/projects/cyberden/cyberden/web</parameter>
+        <parameter key="outputDir">/Volumes/DevDisk/projects/cyberden/cyberden/web</parameter>
+        <parameter key="phpDir">/Volumes/DevDisk/projects/cyberden/cyberden/web/generated-classes</parameter>
+        <parameter key="phpConfDir">/Volumes/DevDisk/projects/cyberden/cyberden/web/generated-conf</parameter>
+        <parameter key="sqlDir">/Volumes/DevDisk/projects/cyberden/cyberden/web/generated-sql</parameter>
+        <parameter key="migrationDir">/Volumes/DevDisk/projects/cyberden/cyberden/web/generated-migrations</parameter>
         <parameter key="composerDir">null</parameter>
       </parameter>
       <parameter key="migrations" type="collection">
@@ -301,7 +303,7 @@
         <parameter key="connections" type="collection"/>
         <parameter key="logging">true</parameter>
         <parameter key="log" type="collection"/>
-        <parameter key="defaultConnection">master</parameter>
+        <parameter key="defaultConnection">cyberden</parameter>
       </parameter>
       <parameter key="generator" type="collection">
         <parameter key="platformClass">null</parameter>
@@ -346,7 +348,7 @@
             <parameter key="interface">\Propel\Generator\Builder\Om\InterfaceBuilder</parameter>
           </parameter>
         </parameter>
-        <parameter key="defaultConnection">master</parameter>
+        <parameter key="defaultConnection">cyberden</parameter>
       </parameter>
     </parameter>
     <parameter key="propel.dbal.default_connection">default</parameter>
@@ -432,6 +434,12 @@
     </parameter>
   </parameters>
   <services>
+    <service id="cyberden.entity_repository.administrator" class="CyberdenBundle\Service\EntityRepository\AdministratorRepository">
+      <argument type="service" id="debug.event_dispatcher"/>
+    </service>
+    <service id="cyberden.security_user_provider.administrator" class="CyberdenBundle\Service\Security\UserProvider\AdministratorUserProvider">
+      <argument type="service" id="cyberden.entity_repository.administrator"/>
+    </service>
     <service id="controller_name_converter" class="Symfony\Bundle\FrameworkBundle\Controller\ControllerNameParser" public="false">
       <tag name="monolog.logger" channel="request"/>
       <argument type="service" id="kernel"/>
@@ -448,11 +456,6 @@
       <argument type="service" id="request_stack"/>
       <argument>en</argument>
       <argument type="service" id="router" on-invalid="ignore"/>
-    </service>
-    <service id="translator_listener" class="Symfony\Component\HttpKernel\EventListener\TranslatorListener">
-      <tag name="kernel.event_subscriber"/>
-      <argument type="service" id="translator"/>
-      <argument type="service" id="request_stack"/>
     </service>
     <service id="validate_request_listener" class="Symfony\Component\HttpKernel\EventListener\ValidateRequestListener">
       <tag name="kernel.event_subscriber"/>
@@ -479,17 +482,17 @@
             <argument type="service" id="templating.locator"/>
           </service>
         </argument>
-        <argument type="service" id="kernel.class_cache.cache_warmer"/>
         <argument type="service">
-          <service class="Symfony\Bundle\FrameworkBundle\CacheWarmer\TranslationsCacheWarmer" public="false">
+          <service class="Symfony\Bundle\TwigBundle\CacheWarmer\TemplateCacheWarmer" public="false">
             <tag name="kernel.cache_warmer"/>
-            <argument type="service" id="translator"/>
-          </service>
-        </argument>
-        <argument type="service">
-          <service class="Symfony\Bundle\FrameworkBundle\CacheWarmer\RouterCacheWarmer" public="false">
-            <tag name="kernel.cache_warmer"/>
-            <argument type="service" id="router"/>
+            <argument type="service" id="twig"/>
+            <argument type="service">
+              <service class="Symfony\Bundle\TwigBundle\TemplateIterator" public="false">
+                <argument type="service" id="kernel"/>
+                <argument>/Volumes/DevDisk/projects/cyberden/cyberden/app</argument>
+                <argument type="collection"/>
+              </service>
+            </argument>
           </service>
         </argument>
         <argument type="service">
@@ -507,62 +510,63 @@
           </service>
         </argument>
         <argument type="service">
-          <service class="Symfony\Bundle\TwigBundle\CacheWarmer\TemplateCacheWarmer" public="false">
+          <service class="Symfony\Bundle\FrameworkBundle\CacheWarmer\AnnotationsCacheWarmer" public="false">
             <tag name="kernel.cache_warmer"/>
-            <argument type="service" id="twig"/>
+            <argument type="service" id="annotations.reader"/>
+            <argument>/Volumes/DevDisk/projects/cyberden/cyberden/var/cache/dev/annotations.php</argument>
+            <argument type="service" id="cache.annotations"/>
+          </service>
+        </argument>
+        <argument type="service">
+          <service class="Symfony\Bundle\FrameworkBundle\CacheWarmer\RouterCacheWarmer" public="false">
+            <tag name="kernel.cache_warmer"/>
+            <argument type="service" id="router"/>
+          </service>
+        </argument>
+        <argument type="service">
+          <service class="Symfony\Bundle\FrameworkBundle\CacheWarmer\ValidatorCacheWarmer" public="false">
+            <tag name="kernel.cache_warmer"/>
+            <argument type="service" id="validator.builder"/>
+            <argument>/Volumes/DevDisk/projects/cyberden/cyberden/var/cache/dev/validation.php</argument>
             <argument type="service">
-              <service class="Symfony\Bundle\TwigBundle\TemplateIterator" public="false">
-                <argument type="service" id="kernel"/>
-                <argument>/Volumes/DevDisk/projects/cyberden/cyberden/app</argument>
-                <argument type="collection"/>
+              <service class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false">
+                <tag name="cache.pool"/>
+                <tag name="cache.pool" clearer="cache.default_clearer"/>
+                <argument>ZthitVCt+z</argument>
+                <argument>0</argument>
+                <argument>dwqEoKLi3SF+xZmlznlKHJ</argument>
+                <argument>/Volumes/DevDisk/projects/cyberden/cyberden/var/cache/dev/pools</argument>
+                <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
+                <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
               </service>
             </argument>
+          </service>
+        </argument>
+        <argument type="service" id="kernel.class_cache.cache_warmer"/>
+        <argument type="service">
+          <service class="Symfony\Bundle\FrameworkBundle\CacheWarmer\TranslationsCacheWarmer" public="false">
+            <tag name="kernel.cache_warmer"/>
+            <argument type="service" id="translator"/>
           </service>
         </argument>
       </argument>
     </service>
     <service id="kernel.class_cache.cache_warmer" class="Symfony\Bundle\FrameworkBundle\CacheWarmer\ClassCacheCacheWarmer">
       <tag name="kernel.cache_warmer"/>
+      <argument type="collection">
+        <argument>Symfony\Component\HttpFoundation\ParameterBag</argument>
+        <argument>Symfony\Component\HttpFoundation\HeaderBag</argument>
+        <argument>Symfony\Component\HttpFoundation\FileBag</argument>
+        <argument>Symfony\Component\HttpFoundation\ServerBag</argument>
+        <argument>Symfony\Component\HttpFoundation\Request</argument>
+        <argument>Symfony\Component\HttpKernel\Kernel</argument>
+        <argument>Symfony\Component\ClassLoader\ClassCollectionLoader</argument>
+        <argument>Symfony\Component\ClassLoader\ApcClassLoader</argument>
+      </argument>
     </service>
     <service id="cache_clearer" class="Symfony\Component\HttpKernel\CacheClearer\ChainCacheClearer">
       <argument type="collection">
-        <argument type="service">
-          <service class="Symfony\Component\HttpKernel\CacheClearer\Psr6CacheClearer" public="false">
-            <tag name="kernel.cache_clearer"/>
-            <call method="addPool">
-              <argument type="service" id="cache.app"/>
-            </call>
-            <call method="addPool">
-              <argument type="service" id="cache.system"/>
-            </call>
-            <call method="addPool">
-              <argument type="service">
-                <service class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false">
-                  <tag name="cache.pool"/>
-                  <argument>Rr8GKiUbnr</argument>
-                  <argument>0</argument>
-                  <argument>lLCs+6zaO+M2LKfFSFtjKH</argument>
-                  <argument>/Volumes/DevDisk/projects/cyberden/cyberden/var/cache/dev/pools</argument>
-                  <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
-                  <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
-                </service>
-              </argument>
-            </call>
-            <call method="addPool">
-              <argument type="service">
-                <service class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false">
-                  <tag name="cache.pool"/>
-                  <argument>OSJZq6nZVr</argument>
-                  <argument>0</argument>
-                  <argument>lLCs+6zaO+M2LKfFSFtjKH</argument>
-                  <argument>/Volumes/DevDisk/projects/cyberden/cyberden/var/cache/dev/pools</argument>
-                  <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
-                  <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
-                </service>
-              </argument>
-            </call>
-          </service>
-        </argument>
+        <argument type="service" id="cache.default_clearer"/>
       </argument>
     </service>
     <service id="service_container" synthetic="true">
@@ -646,6 +650,64 @@
       <argument type="service" id="uri_signer"/>
       <call method="setFragmentPath">
         <argument>/_fragment</argument>
+      </call>
+    </service>
+    <service id="property_accessor" class="Symfony\Component\PropertyAccess\PropertyAccessor">
+      <argument>false</argument>
+      <argument>false</argument>
+      <argument type="service">
+        <service class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false">
+          <tag name="cache.pool" clearer="cache.default_clearer"/>
+          <tag name="cache.pool" clearer="cache.default_clearer"/>
+          <tag name="monolog.logger" channel="cache"/>
+          <argument>oufX7cqPfp</argument>
+          <argument>null</argument>
+          <argument>dwqEoKLi3SF+xZmlznlKHJ</argument>
+          <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
+          <factory class="Symfony\Component\PropertyAccess\PropertyAccessor" method="createCache"/>
+        </service>
+      </argument>
+    </service>
+    <service id="cache.app" class="Symfony\Component\Cache\Adapter\FilesystemAdapter">
+      <tag name="cache.pool"/>
+      <tag name="cache.pool" clearer="cache.default_clearer"/>
+      <argument>17TPIoZzDC</argument>
+      <argument>0</argument>
+      <argument>/Volumes/DevDisk/projects/cyberden/cyberden/var/cache/dev/pools</argument>
+      <call method="setLogger">
+        <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
+      </call>
+    </service>
+    <service id="cache.system" class="Symfony\Component\Cache\Adapter\AdapterInterface">
+      <tag name="cache.pool"/>
+      <tag name="cache.pool" clearer="cache.default_clearer"/>
+      <argument>x4oGnxQWSb</argument>
+      <argument>0</argument>
+      <argument>dwqEoKLi3SF+xZmlznlKHJ</argument>
+      <argument>/Volumes/DevDisk/projects/cyberden/cyberden/var/cache/dev/pools</argument>
+      <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
+      <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
+    </service>
+    <service id="cache.annotations" class="Symfony\Component\Cache\Adapter\AdapterInterface" public="false">
+      <tag name="cache.pool" clearer="cache.default_clearer"/>
+      <tag name="cache.pool" clearer="cache.default_clearer"/>
+      <argument>AzAC+eWen6</argument>
+      <argument>0</argument>
+      <argument>dwqEoKLi3SF+xZmlznlKHJ</argument>
+      <argument>/Volumes/DevDisk/projects/cyberden/cyberden/var/cache/dev/pools</argument>
+      <argument type="service" id="monolog.logger.cache"/>
+      <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
+    </service>
+    <service id="cache.default_clearer" class="Symfony\Component\HttpKernel\CacheClearer\Psr6CacheClearer">
+      <tag name="kernel.cache_clearer"/>
+      <call method="addPool">
+        <argument type="service" id="cache.app"/>
+      </call>
+      <call method="addPool">
+        <argument type="service" id="cache.system"/>
+      </call>
+      <call method="addPool">
+        <argument type="service" id="cache.annotations"/>
       </call>
     </service>
     <service id="translator.default" class="Symfony\Bundle\FrameworkBundle\Translation\Translator">
@@ -869,27 +931,10 @@
         <argument type="service" id="translation.dumper.res"/>
       </call>
     </service>
-    <service id="property_accessor" class="Symfony\Component\PropertyAccess\PropertyAccessor">
-      <argument>false</argument>
-      <argument>false</argument>
-    </service>
-    <service id="cache.app" class="Symfony\Component\Cache\Adapter\FilesystemAdapter">
-      <tag name="cache.pool"/>
-      <argument>2chLfvhrn+</argument>
-      <argument>0</argument>
-      <argument>/Volumes/DevDisk/projects/cyberden/cyberden/var/cache/dev/pools</argument>
-      <call method="setLogger">
-        <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
-      </call>
-    </service>
-    <service id="cache.system" class="Symfony\Component\Cache\Adapter\AdapterInterface">
-      <tag name="cache.pool"/>
-      <argument>lkBCg2ULug</argument>
-      <argument>0</argument>
-      <argument>lLCs+6zaO+M2LKfFSFtjKH</argument>
-      <argument>/Volumes/DevDisk/projects/cyberden/cyberden/var/cache/dev/pools</argument>
-      <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
-      <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
+    <service id="translator_listener" class="Symfony\Component\HttpKernel\EventListener\TranslatorListener">
+      <tag name="kernel.event_subscriber"/>
+      <argument type="service" id="translator"/>
+      <argument type="service" id="request_stack"/>
     </service>
     <service id="session" class="Symfony\Component\HttpFoundation\Session\Session">
       <argument type="service" id="session.storage.native"/>
@@ -942,16 +987,16 @@
             <argument type="collection">
               <argument key="Symfony\Component\Form\Extension\Core\Type\FormType" type="collection">
                 <argument>form.type_extension.form.http_foundation</argument>
-                <argument>form.type_extension.form.validator</argument>
-                <argument>form.type_extension.upload.validator</argument>
-                <argument>form.type_extension.csrf</argument>
                 <argument>form.type_extension.form.data_collector</argument>
-              </argument>
-              <argument key="Symfony\Component\Form\Extension\Core\Type\RepeatedType" type="collection">
-                <argument>form.type_extension.repeated.validator</argument>
+                <argument>form.type_extension.csrf</argument>
+                <argument>form.type_extension.upload.validator</argument>
+                <argument>form.type_extension.form.validator</argument>
               </argument>
               <argument key="Symfony\Component\Form\Extension\Core\Type\SubmitType" type="collection">
                 <argument>form.type_extension.submit.validator</argument>
+              </argument>
+              <argument key="Symfony\Component\Form\Extension\Core\Type\RepeatedType" type="collection">
+                <argument>form.type_extension.repeated.validator</argument>
               </argument>
             </argument>
             <argument type="collection">
@@ -1269,6 +1314,7 @@
             <argument type="service" id="security.role_hierarchy"/>
             <argument type="service" id="security.logout_url_generator"/>
             <argument type="service" id="debug.security.access.decision_manager"/>
+            <argument type="service" id="security.firewall.map"/>
           </service>
         </argument>
       </call>
@@ -1334,7 +1380,191 @@
     <service id="data_collector.form" class="Symfony\Component\Form\Extension\DataCollector\FormDataCollector">
       <tag name="data_collector" template="@WebProfiler/Collector/form.html.twig" id="form" priority="310"/>
       <argument type="service" id="data_collector.form.extractor"/>
+      <argument>false</argument>
     </service>
+    <service id="debug.debug_handlers_listener" class="Symfony\Component\HttpKernel\EventListener\DebugHandlersListener">
+      <tag name="kernel.event_subscriber"/>
+      <tag name="monolog.logger" channel="php"/>
+      <argument>null</argument>
+      <argument type="service" id="monolog.logger.php" on-invalid="null"/>
+      <argument>-1</argument>
+      <argument>-1</argument>
+      <argument>true</argument>
+      <argument type="service" id="debug.file_link_formatter"/>
+      <argument>true</argument>
+    </service>
+    <service id="debug.stopwatch" class="Symfony\Component\Stopwatch\Stopwatch"/>
+    <service id="debug.file_link_formatter" class="Symfony\Component\HttpKernel\Debug\FileLinkFormatter" public="false">
+      <argument>null</argument>
+      <argument type="service" id="request_stack" on-invalid="ignore"/>
+      <argument>/Volumes/DevDisk/projects/cyberden/cyberden</argument>
+      <argument>/_profiler/open?file=%%f&amp;line=%%l#line%%l</argument>
+    </service>
+    <service id="debug.event_dispatcher" class="Symfony\Component\HttpKernel\Debug\TraceableEventDispatcher">
+      <tag name="monolog.logger" channel="event"/>
+      <argument type="service">
+        <service class="Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher" public="false">
+          <argument type="service" id="service_container"/>
+        </service>
+      </argument>
+      <argument type="service" id="debug.stopwatch"/>
+      <argument type="service" id="monolog.logger.event" on-invalid="null"/>
+      <call method="addListenerService">
+        <argument>kernel.controller</argument>
+        <argument type="collection">
+          <argument>data_collector.router</argument>
+          <argument>onKernelController</argument>
+        </argument>
+        <argument>0</argument>
+      </call>
+      <call method="addSubscriberService">
+        <argument>response_listener</argument>
+        <argument>Symfony\Component\HttpKernel\EventListener\ResponseListener</argument>
+      </call>
+      <call method="addSubscriberService">
+        <argument>streamed_response_listener</argument>
+        <argument>Symfony\Component\HttpKernel\EventListener\StreamedResponseListener</argument>
+      </call>
+      <call method="addSubscriberService">
+        <argument>locale_listener</argument>
+        <argument>Symfony\Component\HttpKernel\EventListener\LocaleListener</argument>
+      </call>
+      <call method="addSubscriberService">
+        <argument>validate_request_listener</argument>
+        <argument>Symfony\Component\HttpKernel\EventListener\ValidateRequestListener</argument>
+      </call>
+      <call method="addSubscriberService">
+        <argument>translator_listener</argument>
+        <argument>Symfony\Component\HttpKernel\EventListener\TranslatorListener</argument>
+      </call>
+      <call method="addSubscriberService">
+        <argument>session_listener</argument>
+        <argument>Symfony\Bundle\FrameworkBundle\EventListener\SessionListener</argument>
+      </call>
+      <call method="addSubscriberService">
+        <argument>session.save_listener</argument>
+        <argument>Symfony\Component\HttpKernel\EventListener\SaveSessionListener</argument>
+      </call>
+      <call method="addSubscriberService">
+        <argument>fragment.listener</argument>
+        <argument>Symfony\Component\HttpKernel\EventListener\FragmentListener</argument>
+      </call>
+      <call method="addSubscriberService">
+        <argument>profiler_listener</argument>
+        <argument>Symfony\Component\HttpKernel\EventListener\ProfilerListener</argument>
+      </call>
+      <call method="addSubscriberService">
+        <argument>data_collector.request</argument>
+        <argument>Symfony\Bundle\FrameworkBundle\DataCollector\RequestDataCollector</argument>
+      </call>
+      <call method="addSubscriberService">
+        <argument>debug.debug_handlers_listener</argument>
+        <argument>Symfony\Component\HttpKernel\EventListener\DebugHandlersListener</argument>
+      </call>
+      <call method="addSubscriberService">
+        <argument>router_listener</argument>
+        <argument>Symfony\Component\HttpKernel\EventListener\RouterListener</argument>
+      </call>
+      <call method="addSubscriberService">
+        <argument>security.firewall</argument>
+        <argument>Symfony\Component\Security\Http\Firewall</argument>
+      </call>
+      <call method="addSubscriberService">
+        <argument>security.rememberme.response_listener</argument>
+        <argument>Symfony\Component\Security\Http\RememberMe\ResponseListener</argument>
+      </call>
+      <call method="addSubscriberService">
+        <argument>twig.exception_listener</argument>
+        <argument>Symfony\Component\HttpKernel\EventListener\ExceptionListener</argument>
+      </call>
+      <call method="addSubscriberService">
+        <argument>monolog.handler.console</argument>
+        <argument>Symfony\Bridge\Monolog\Handler\ConsoleHandler</argument>
+      </call>
+      <call method="addSubscriberService">
+        <argument>swiftmailer.email_sender.listener</argument>
+        <argument>Symfony\Bundle\SwiftmailerBundle\EventListener\EmailSenderListener</argument>
+      </call>
+      <call method="addSubscriberService">
+        <argument>sensio_framework_extra.controller.listener</argument>
+        <argument>Sensio\Bundle\FrameworkExtraBundle\EventListener\ControllerListener</argument>
+      </call>
+      <call method="addSubscriberService">
+        <argument>sensio_framework_extra.converter.listener</argument>
+        <argument>Sensio\Bundle\FrameworkExtraBundle\EventListener\ParamConverterListener</argument>
+      </call>
+      <call method="addSubscriberService">
+        <argument>sensio_framework_extra.view.listener</argument>
+        <argument>Sensio\Bundle\FrameworkExtraBundle\EventListener\TemplateListener</argument>
+      </call>
+      <call method="addSubscriberService">
+        <argument>sensio_framework_extra.cache.listener</argument>
+        <argument>Sensio\Bundle\FrameworkExtraBundle\EventListener\HttpCacheListener</argument>
+      </call>
+      <call method="addSubscriberService">
+        <argument>sensio_framework_extra.security.listener</argument>
+        <argument>Sensio\Bundle\FrameworkExtraBundle\EventListener\SecurityListener</argument>
+      </call>
+      <call method="addSubscriberService">
+        <argument>debug.dump_listener</argument>
+        <argument>Symfony\Component\HttpKernel\EventListener\DumpListener</argument>
+      </call>
+      <call method="addSubscriberService">
+        <argument>web_profiler.debug_toolbar</argument>
+        <argument>Symfony\Bundle\WebProfilerBundle\EventListener\WebDebugToolbarListener</argument>
+      </call>
+    </service>
+    <service id="debug.controller_resolver" class="Symfony\Component\HttpKernel\Controller\TraceableControllerResolver">
+      <tag name="monolog.logger" channel="request"/>
+      <argument type="service">
+        <service class="Symfony\Bundle\FrameworkBundle\Controller\ControllerResolver" public="false">
+          <argument type="service" id="service_container"/>
+          <argument type="service" id="controller_name_converter"/>
+          <argument type="service" id="monolog.logger.request" on-invalid="ignore"/>
+        </service>
+      </argument>
+      <argument type="service" id="debug.stopwatch"/>
+      <argument type="service" id="debug.argument_resolver"/>
+    </service>
+    <service id="debug.argument_resolver" class="Symfony\Component\HttpKernel\Controller\TraceableArgumentResolver">
+      <argument type="service">
+        <service class="Symfony\Component\HttpKernel\Controller\ArgumentResolver" public="false">
+          <argument type="service">
+            <service class="Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadataFactory" public="false"/>
+          </argument>
+          <argument type="collection">
+            <argument type="service">
+              <service class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\RequestAttributeValueResolver" public="false">
+                <tag name="controller.argument_value_resolver" priority="100"/>
+              </service>
+            </argument>
+            <argument type="service">
+              <service class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\RequestValueResolver" public="false">
+                <tag name="controller.argument_value_resolver" priority="50"/>
+              </service>
+            </argument>
+            <argument type="service">
+              <service class="Symfony\Bundle\SecurityBundle\SecurityUserValueResolver" public="false">
+                <tag name="controller.argument_value_resolver" priority="40"/>
+                <argument type="service" id="security.token_storage"/>
+              </service>
+            </argument>
+            <argument type="service">
+              <service class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver" public="false">
+                <tag name="controller.argument_value_resolver" priority="-100"/>
+              </service>
+            </argument>
+            <argument type="service">
+              <service class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\VariadicValueResolver" public="false">
+                <tag name="controller.argument_value_resolver" priority="-150"/>
+              </service>
+            </argument>
+          </argument>
+        </service>
+      </argument>
+      <argument type="service" id="debug.stopwatch"/>
+    </service>
+    <service id="debug.log_processor" class="Symfony\Bridge\Monolog\Processor\DebugProcessor" public="false"/>
     <service id="routing.loader" class="Symfony\Bundle\FrameworkBundle\Routing\DelegatingLoader">
       <argument type="service" id="controller_name_converter"/>
       <argument type="service">
@@ -1434,174 +1664,8 @@
       <argument type="service" id="router.request_context" on-invalid="ignore"/>
       <argument type="service" id="monolog.logger.request" on-invalid="ignore"/>
     </service>
-    <service id="debug.debug_handlers_listener" class="Symfony\Component\HttpKernel\EventListener\DebugHandlersListener">
-      <tag name="kernel.event_subscriber"/>
-      <tag name="monolog.logger" channel="php"/>
-      <argument>null</argument>
-      <argument type="service" id="monolog.logger.php" on-invalid="null"/>
-      <argument>28586</argument>
-      <argument>null</argument>
-      <argument>true</argument>
-      <argument>null</argument>
-    </service>
-    <service id="debug.stopwatch" class="Symfony\Component\Stopwatch\Stopwatch"/>
-    <service id="debug.event_dispatcher" class="Symfony\Component\HttpKernel\Debug\TraceableEventDispatcher">
-      <tag name="monolog.logger" channel="event"/>
-      <argument type="service">
-        <service class="Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher" public="false">
-          <argument type="service" id="service_container"/>
-        </service>
-      </argument>
-      <argument type="service" id="debug.stopwatch"/>
-      <argument type="service" id="monolog.logger.event" on-invalid="null"/>
-      <call method="addListenerService">
-        <argument>kernel.controller</argument>
-        <argument type="collection">
-          <argument>data_collector.router</argument>
-          <argument>onKernelController</argument>
-        </argument>
-        <argument>0</argument>
-      </call>
-      <call method="addSubscriberService">
-        <argument>response_listener</argument>
-        <argument>Symfony\Component\HttpKernel\EventListener\ResponseListener</argument>
-      </call>
-      <call method="addSubscriberService">
-        <argument>streamed_response_listener</argument>
-        <argument>Symfony\Component\HttpKernel\EventListener\StreamedResponseListener</argument>
-      </call>
-      <call method="addSubscriberService">
-        <argument>locale_listener</argument>
-        <argument>Symfony\Component\HttpKernel\EventListener\LocaleListener</argument>
-      </call>
-      <call method="addSubscriberService">
-        <argument>translator_listener</argument>
-        <argument>Symfony\Component\HttpKernel\EventListener\TranslatorListener</argument>
-      </call>
-      <call method="addSubscriberService">
-        <argument>validate_request_listener</argument>
-        <argument>Symfony\Component\HttpKernel\EventListener\ValidateRequestListener</argument>
-      </call>
-      <call method="addSubscriberService">
-        <argument>session_listener</argument>
-        <argument>Symfony\Bundle\FrameworkBundle\EventListener\SessionListener</argument>
-      </call>
-      <call method="addSubscriberService">
-        <argument>session.save_listener</argument>
-        <argument>Symfony\Component\HttpKernel\EventListener\SaveSessionListener</argument>
-      </call>
-      <call method="addSubscriberService">
-        <argument>fragment.listener</argument>
-        <argument>Symfony\Component\HttpKernel\EventListener\FragmentListener</argument>
-      </call>
-      <call method="addSubscriberService">
-        <argument>profiler_listener</argument>
-        <argument>Symfony\Component\HttpKernel\EventListener\ProfilerListener</argument>
-      </call>
-      <call method="addSubscriberService">
-        <argument>data_collector.request</argument>
-        <argument>Symfony\Bundle\FrameworkBundle\DataCollector\RequestDataCollector</argument>
-      </call>
-      <call method="addSubscriberService">
-        <argument>router_listener</argument>
-        <argument>Symfony\Component\HttpKernel\EventListener\RouterListener</argument>
-      </call>
-      <call method="addSubscriberService">
-        <argument>debug.debug_handlers_listener</argument>
-        <argument>Symfony\Component\HttpKernel\EventListener\DebugHandlersListener</argument>
-      </call>
-      <call method="addSubscriberService">
-        <argument>security.firewall</argument>
-        <argument>Symfony\Component\Security\Http\Firewall</argument>
-      </call>
-      <call method="addSubscriberService">
-        <argument>security.rememberme.response_listener</argument>
-        <argument>Symfony\Component\Security\Http\RememberMe\ResponseListener</argument>
-      </call>
-      <call method="addSubscriberService">
-        <argument>twig.exception_listener</argument>
-        <argument>Symfony\Component\HttpKernel\EventListener\ExceptionListener</argument>
-      </call>
-      <call method="addSubscriberService">
-        <argument>monolog.handler.console</argument>
-        <argument>Symfony\Bridge\Monolog\Handler\ConsoleHandler</argument>
-      </call>
-      <call method="addSubscriberService">
-        <argument>swiftmailer.email_sender.listener</argument>
-        <argument>Symfony\Bundle\SwiftmailerBundle\EventListener\EmailSenderListener</argument>
-      </call>
-      <call method="addSubscriberService">
-        <argument>sensio_framework_extra.controller.listener</argument>
-        <argument>Sensio\Bundle\FrameworkExtraBundle\EventListener\ControllerListener</argument>
-      </call>
-      <call method="addSubscriberService">
-        <argument>sensio_framework_extra.converter.listener</argument>
-        <argument>Sensio\Bundle\FrameworkExtraBundle\EventListener\ParamConverterListener</argument>
-      </call>
-      <call method="addSubscriberService">
-        <argument>sensio_framework_extra.view.listener</argument>
-        <argument>Sensio\Bundle\FrameworkExtraBundle\EventListener\TemplateListener</argument>
-      </call>
-      <call method="addSubscriberService">
-        <argument>sensio_framework_extra.cache.listener</argument>
-        <argument>Sensio\Bundle\FrameworkExtraBundle\EventListener\HttpCacheListener</argument>
-      </call>
-      <call method="addSubscriberService">
-        <argument>sensio_framework_extra.security.listener</argument>
-        <argument>Sensio\Bundle\FrameworkExtraBundle\EventListener\SecurityListener</argument>
-      </call>
-      <call method="addSubscriberService">
-        <argument>debug.dump_listener</argument>
-        <argument>Symfony\Component\HttpKernel\EventListener\DumpListener</argument>
-      </call>
-      <call method="addSubscriberService">
-        <argument>web_profiler.debug_toolbar</argument>
-        <argument>Symfony\Bundle\WebProfilerBundle\EventListener\WebDebugToolbarListener</argument>
-      </call>
-    </service>
-    <service id="debug.controller_resolver" class="Symfony\Component\HttpKernel\Controller\TraceableControllerResolver">
-      <tag name="monolog.logger" channel="request"/>
-      <argument type="service">
-        <service class="Symfony\Bundle\FrameworkBundle\Controller\ControllerResolver" public="false">
-          <argument type="service" id="service_container"/>
-          <argument type="service" id="controller_name_converter"/>
-          <argument type="service" id="monolog.logger.request" on-invalid="ignore"/>
-        </service>
-      </argument>
-      <argument type="service" id="debug.stopwatch"/>
-      <argument type="service" id="debug.argument_resolver"/>
-    </service>
-    <service id="debug.argument_resolver" class="Symfony\Component\HttpKernel\Controller\TraceableArgumentResolver">
-      <argument type="service">
-        <service class="Symfony\Component\HttpKernel\Controller\ArgumentResolver" public="false">
-          <argument type="service">
-            <service class="Symfony\Component\HttpKernel\ControllerMetadata\ArgumentMetadataFactory" public="false"/>
-          </argument>
-          <argument type="collection">
-            <argument type="service">
-              <service class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\RequestAttributeValueResolver" public="false">
-                <tag name="controller.argument_value_resolver" priority="100"/>
-              </service>
-            </argument>
-            <argument type="service">
-              <service class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\RequestValueResolver" public="false">
-                <tag name="controller.argument_value_resolver" priority="50"/>
-              </service>
-            </argument>
-            <argument type="service">
-              <service class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver" public="false">
-                <tag name="controller.argument_value_resolver" priority="-100"/>
-              </service>
-            </argument>
-            <argument type="service">
-              <service class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\VariadicValueResolver" public="false">
-                <tag name="controller.argument_value_resolver" priority="-150"/>
-              </service>
-            </argument>
-          </argument>
-        </service>
-      </argument>
-      <argument type="service" id="debug.stopwatch"/>
+    <service id="annotations.reader" class="Doctrine\Common\Annotations\AnnotationReader" public="false">
+      <autowiring-type>Doctrine\Common\Annotations\Reader</autowiring-type>
     </service>
     <service id="security.authorization_checker" class="Symfony\Component\Security\Core\Authorization\AuthorizationChecker">
       <argument type="service" id="security.token_storage"/>
@@ -1614,16 +1678,16 @@
       <argument type="collection">
         <argument type="service">
           <service class="Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider" public="false">
-            <argument type="service" id="security.user.provider.concrete.in_memory"/>
-            <argument type="service" id="security.user_checker.main"/>
-            <argument>main</argument>
+            <argument type="service" id="cyberden.security_user_provider.administrator"/>
+            <argument type="service" id="security.user_checker.secured_area"/>
+            <argument>secured_area</argument>
             <argument type="service" id="security.encoder_factory"/>
             <argument>true</argument>
           </service>
         </argument>
         <argument type="service">
           <service class="Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider" public="false">
-            <argument>58410e917fc751.68871793</argument>
+            <argument>58418c79cb6f82.52627947</argument>
           </service>
         </argument>
       </argument>
@@ -1644,25 +1708,31 @@
     </service>
     <service id="security.firewall" class="Symfony\Component\Security\Http\Firewall">
       <tag name="kernel.event_subscriber"/>
-      <argument type="service">
-        <service class="Symfony\Bundle\SecurityBundle\Security\FirewallMap" public="false">
-          <argument type="service" id="service_container"/>
-          <argument type="collection">
-            <argument key="security.firewall.map.context.dev" type="service">
-              <service class="Symfony\Component\HttpFoundation\RequestMatcher" public="false">
-                <argument>^/(_(profiler|wdt)|css|images|js)/</argument>
-              </service>
-            </argument>
-            <argument key="security.firewall.map.context.main">null</argument>
-          </argument>
-        </service>
-      </argument>
+      <argument type="service" id="security.firewall.map"/>
       <argument type="service" id="debug.event_dispatcher"/>
+    </service>
+    <service id="security.firewall.map" class="Symfony\Bundle\SecurityBundle\Security\FirewallMap" public="false">
+      <argument type="service" id="service_container"/>
+      <argument type="collection">
+        <argument key="security.firewall.map.context.dev" type="service">
+          <service class="Symfony\Component\HttpFoundation\RequestMatcher" public="false">
+            <argument>^/(_(profiler|wdt)|css|images|js)/</argument>
+          </service>
+        </argument>
+        <argument key="security.firewall.map.context.secured_area">null</argument>
+      </argument>
     </service>
     <service id="security.logout_url_generator" class="Symfony\Component\Security\Http\Logout\LogoutUrlGenerator" public="false">
       <argument type="service" id="request_stack" on-invalid="null"/>
       <argument type="service" id="router" on-invalid="null"/>
       <argument type="service" id="security.token_storage" on-invalid="null"/>
+      <call method="registerListener">
+        <argument>secured_area</argument>
+        <argument>/logout</argument>
+        <argument>logout</argument>
+        <argument>_csrf_token</argument>
+        <argument>null</argument>
+      </call>
     </service>
     <service id="security.validator.user_password" class="Symfony\Component\Security\Core\Validator\Constraints\UserPasswordValidator">
       <tag name="validator.constraint_validator" alias="security.validator.user_password"/>
@@ -1719,18 +1789,55 @@
         </argument>
       </call>
     </service>
-    <service id="security.user.provider.concrete.in_memory" class="Symfony\Component\Security\Core\User\InMemoryUserProvider" public="false"/>
     <service id="security.firewall.map.context.dev" class="Symfony\Bundle\SecurityBundle\Security\FirewallContext">
       <argument type="collection"/>
       <argument>null</argument>
+      <argument type="service">
+        <service class="Symfony\Bundle\SecurityBundle\Security\FirewallConfig" public="false">
+          <argument>dev</argument>
+          <argument>security.user_checker</argument>
+          <argument>security.request_matcher.5314eeb91110adf24b9b678372bb11bbe00e8858c519c088bfb65f525181ad3bf573fd1d</argument>
+          <argument>false</argument>
+          <argument></argument>
+          <argument></argument>
+          <argument></argument>
+          <argument></argument>
+          <argument></argument>
+          <argument></argument>
+          <argument type="collection"/>
+        </service>
+      </argument>
     </service>
-    <service id="security.firewall.map.context.main" class="Symfony\Bundle\SecurityBundle\Security\FirewallContext">
+    <service id="security.firewall.map.context.secured_area" class="Symfony\Bundle\SecurityBundle\Security\FirewallContext">
       <argument type="collection">
         <argument type="service">
           <service class="Symfony\Component\Security\Http\Firewall\ChannelListener" public="false">
             <tag name="monolog.logger" channel="security"/>
             <argument type="service">
-              <service class="Symfony\Component\Security\Http\AccessMap" public="false"/>
+              <service class="Symfony\Component\Security\Http\AccessMap" public="false">
+                <call method="add">
+                  <argument type="service">
+                    <service class="Symfony\Component\HttpFoundation\RequestMatcher" public="false">
+                      <argument>^/login</argument>
+                    </service>
+                  </argument>
+                  <argument type="collection">
+                    <argument>IS_AUTHENTICATED_ANONYMOUSLY</argument>
+                  </argument>
+                  <argument>null</argument>
+                </call>
+                <call method="add">
+                  <argument type="service">
+                    <service class="Symfony\Component\HttpFoundation\RequestMatcher" public="false">
+                      <argument>^/</argument>
+                    </service>
+                  </argument>
+                  <argument type="collection">
+                    <argument>ROLE_ADMIN</argument>
+                  </argument>
+                  <argument>null</argument>
+                </call>
+              </service>
             </argument>
             <argument type="service">
               <service class="Symfony\Component\Security\Http\EntryPoint\RetryAuthenticationEntryPoint" public="false">
@@ -1745,17 +1852,49 @@
           <service class="Symfony\Component\Security\Http\Firewall\ContextListener" public="false">
             <argument type="service" id="security.token_storage"/>
             <argument type="collection">
-              <argument type="service" id="security.user.provider.concrete.in_memory"/>
+              <argument type="service" id="cyberden.security_user_provider.administrator"/>
             </argument>
-            <argument>main</argument>
+            <argument>secured_area</argument>
             <argument type="service" id="monolog.logger.security" on-invalid="null"/>
             <argument type="service" id="debug.event_dispatcher" on-invalid="null"/>
             <argument type="service" id="security.authentication.trust_resolver"/>
           </service>
         </argument>
         <argument type="service">
+          <service class="Symfony\Component\Security\Http\Firewall\LogoutListener" public="false">
+            <argument type="service" id="security.token_storage"/>
+            <argument type="service">
+              <service class="Symfony\Component\Security\Http\HttpUtils" public="false">
+                <argument type="service" id="router" on-invalid="null"/>
+                <argument type="service" id="router" on-invalid="null"/>
+              </service>
+            </argument>
+            <argument type="service">
+              <service class="Symfony\Component\Security\Http\Logout\DefaultLogoutSuccessHandler" public="false">
+                <argument type="service">
+                  <service class="Symfony\Component\Security\Http\HttpUtils" public="false">
+                    <argument type="service" id="router" on-invalid="null"/>
+                    <argument type="service" id="router" on-invalid="null"/>
+                  </service>
+                </argument>
+                <argument>/login</argument>
+              </service>
+            </argument>
+            <argument type="collection">
+              <argument key="csrf_parameter">_csrf_token</argument>
+              <argument key="csrf_token_id">logout</argument>
+              <argument key="logout_path">/logout</argument>
+            </argument>
+            <call method="addHandler">
+              <argument type="service">
+                <service class="Symfony\Component\Security\Http\Logout\SessionLogoutHandler" public="false"/>
+              </argument>
+            </call>
+          </service>
+        </argument>
+        <argument type="service">
           <service class="Symfony\Component\Security\Http\Firewall\UsernamePasswordFormAuthenticationListener" public="false">
-            <tag name="security.remember_me_aware" id="main" provider="security.user.provider.concrete.in_memory"/>
+            <tag name="security.remember_me_aware" id="secured_area" provider="security.user.provider.concrete.administrator"/>
             <argument type="service" id="security.token_storage"/>
             <argument type="service" id="security.authentication.manager"/>
             <argument type="service">
@@ -1769,7 +1908,7 @@
                 <argument type="service" id="router" on-invalid="null"/>
               </service>
             </argument>
-            <argument>main</argument>
+            <argument>secured_area</argument>
             <argument type="service">
               <service class="Symfony\Component\Security\Http\Authentication\DefaultAuthenticationSuccessHandler" public="false">
                 <argument type="service">
@@ -1789,7 +1928,7 @@
                   </argument>
                 </call>
                 <call method="setProviderKey">
-                  <argument>main</argument>
+                  <argument>secured_area</argument>
                 </call>
               </service>
             </argument>
@@ -1832,7 +1971,7 @@
         <argument type="service">
           <service class="Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener" public="false">
             <argument type="service" id="security.token_storage"/>
-            <argument>58410e917fc751.68871793</argument>
+            <argument>58418c79cb6f82.52627947</argument>
             <argument type="service" id="monolog.logger.security" on-invalid="null"/>
             <argument type="service" id="security.authentication.manager"/>
           </service>
@@ -1843,7 +1982,30 @@
             <argument type="service" id="security.token_storage"/>
             <argument type="service" id="debug.security.access.decision_manager"/>
             <argument type="service">
-              <service class="Symfony\Component\Security\Http\AccessMap" public="false"/>
+              <service class="Symfony\Component\Security\Http\AccessMap" public="false">
+                <call method="add">
+                  <argument type="service">
+                    <service class="Symfony\Component\HttpFoundation\RequestMatcher" public="false">
+                      <argument>^/login</argument>
+                    </service>
+                  </argument>
+                  <argument type="collection">
+                    <argument>IS_AUTHENTICATED_ANONYMOUSLY</argument>
+                  </argument>
+                  <argument>null</argument>
+                </call>
+                <call method="add">
+                  <argument type="service">
+                    <service class="Symfony\Component\HttpFoundation\RequestMatcher" public="false">
+                      <argument>^/</argument>
+                    </service>
+                  </argument>
+                  <argument type="collection">
+                    <argument>ROLE_ADMIN</argument>
+                  </argument>
+                  <argument>null</argument>
+                </call>
+              </service>
             </argument>
             <argument type="service" id="security.authentication.manager"/>
           </service>
@@ -1859,7 +2021,7 @@
               <argument type="service" id="router" on-invalid="null"/>
             </service>
           </argument>
-          <argument>main</argument>
+          <argument>secured_area</argument>
           <argument type="service">
             <service class="Symfony\Component\Security\Http\EntryPoint\FormAuthenticationEntryPoint" public="false">
               <argument type="service" id="http_kernel"/>
@@ -1877,6 +2039,25 @@
           <argument>null</argument>
           <argument type="service" id="monolog.logger.security" on-invalid="null"/>
           <argument>false</argument>
+        </service>
+      </argument>
+      <argument type="service">
+        <service class="Symfony\Bundle\SecurityBundle\Security\FirewallConfig" public="false">
+          <argument>secured_area</argument>
+          <argument>security.user_checker</argument>
+          <argument>null</argument>
+          <argument>true</argument>
+          <argument>false</argument>
+          <argument>security.user.provider.concrete.administrator</argument>
+          <argument>secured_area</argument>
+          <argument>security.authentication.form_entry_point.secured_area</argument>
+          <argument>null</argument>
+          <argument>null</argument>
+          <argument type="collection">
+            <argument>logout</argument>
+            <argument>form_login</argument>
+            <argument>anonymous</argument>
+          </argument>
         </service>
       </argument>
     </service>
@@ -1949,7 +2130,7 @@
         <argument type="service">
           <service class="Symfony\Bridge\Twig\Extension\CodeExtension" public="false">
             <tag name="twig.extension"/>
-            <argument>null</argument>
+            <argument type="service" id="debug.file_link_formatter"/>
             <argument>/Volumes/DevDisk/projects/cyberden/cyberden/app</argument>
             <argument>UTF-8</argument>
           </service>
@@ -1990,7 +2171,6 @@
         <argument type="service">
           <service class="Symfony\Bridge\Twig\Extension\HttpKernelExtension" public="false">
             <tag name="twig.extension"/>
-            <argument type="service" id="fragment.handler"/>
           </service>
         </argument>
       </call>
@@ -2007,18 +2187,6 @@
         <argument type="service">
           <service class="Symfony\Bridge\Twig\Extension\FormExtension" public="false">
             <tag name="twig.extension"/>
-            <argument type="service">
-              <service class="Symfony\Bridge\Twig\Form\TwigRenderer" public="false">
-                <argument type="service">
-                  <service class="Symfony\Bridge\Twig\Form\TwigRendererEngine" public="false">
-                    <argument type="collection">
-                      <argument>form_div_layout.html.twig</argument>
-                    </argument>
-                  </service>
-                </argument>
-                <argument type="service" id="security.csrf.token_manager" on-invalid="null"/>
-              </service>
-            </argument>
           </service>
         </argument>
       </call>
@@ -2037,6 +2205,18 @@
           <service class="Symfony\Bridge\Twig\Extension\DumpExtension" public="false">
             <tag name="twig.extension"/>
             <argument type="service" id="var_dumper.cloner"/>
+            <argument type="service">
+              <service class="Symfony\Component\VarDumper\Dumper\HtmlDumper" public="false">
+                <argument>null</argument>
+                <argument>UTF-8</argument>
+                <argument>0</argument>
+                <call method="setDisplayOptions">
+                  <argument type="collection">
+                    <argument key="fileLinkFormat" type="service" id="debug.file_link_formatter"/>
+                  </argument>
+                </call>
+              </service>
+            </argument>
           </service>
         </argument>
       </call>
@@ -2044,6 +2224,19 @@
         <argument type="service">
           <service class="Symfony\Bundle\WebProfilerBundle\Twig\WebProfilerExtension" public="false">
             <tag name="twig.extension"/>
+            <argument type="service">
+              <service class="Symfony\Component\VarDumper\Dumper\HtmlDumper" public="false">
+                <argument>null</argument>
+                <argument>UTF-8</argument>
+                <argument>1</argument>
+                <call method="setDisplayOptions">
+                  <argument type="collection">
+                    <argument key="maxStringLength">4096</argument>
+                    <argument key="fileLinkFormat" type="service" id="debug.file_link_formatter"/>
+                  </argument>
+                </call>
+              </service>
+            </argument>
           </service>
         </argument>
       </call>
@@ -2066,6 +2259,18 @@
           </service>
         </argument>
       </call>
+      <call method="addRuntimeLoader">
+        <argument type="service">
+          <service class="Symfony\Bundle\TwigBundle\ContainerAwareRuntimeLoader" public="false">
+            <argument type="service" id="service_container"/>
+            <argument type="collection">
+              <argument key="Symfony\Bridge\Twig\Extension\HttpKernelRuntime">twig.runtime.httpkernel</argument>
+              <argument key="Symfony\Bridge\Twig\Form\TwigRenderer">twig.form.renderer</argument>
+            </argument>
+            <argument type="service" id="logger" on-invalid="null"/>
+          </service>
+        </argument>
+      </call>
       <configurator method="configure">
         <service class="Symfony\Bundle\TwigBundle\DependencyInjection\Configurator\EnvironmentConfigurator" public="false">
           <argument>F j, Y H:i</argument>
@@ -2078,6 +2283,22 @@
       </configurator>
     </service>
     <service id="twig.profile" class="Twig_Profiler_Profile"/>
+    <service id="twig.runtime.httpkernel" class="Symfony\Bridge\Twig\Extension\HttpKernelRuntime">
+      <tag name="twig.runtime"/>
+      <argument type="service" id="fragment.handler"/>
+    </service>
+    <service id="twig.form.renderer" class="Symfony\Bridge\Twig\Form\TwigRenderer">
+      <tag name="twig.runtime"/>
+      <argument type="service">
+        <service class="Symfony\Bridge\Twig\Form\TwigRendererEngine" public="false">
+          <argument type="collection">
+            <argument>form_div_layout.html.twig</argument>
+          </argument>
+          <argument type="service" id="twig"/>
+        </service>
+      </argument>
+      <argument type="service" id="security.csrf.token_manager" on-invalid="null"/>
+    </service>
     <service id="twig.translation.extractor" class="Symfony\Bridge\Twig\Translation\TwigExtractor">
       <tag name="translation.extractor" alias="twig"/>
       <argument type="service" id="twig"/>
@@ -2234,7 +2455,7 @@
       <argument type="collection">
         <argument key="database" type="collection">
           <argument key="connections" type="collection">
-            <argument key="master" type="collection">
+            <argument key="cyberden" type="collection">
               <argument key="adapter">mysql</argument>
               <argument key="user">root</argument>
               <argument key="password">password</argument>
@@ -2270,13 +2491,13 @@
         </argument>
         <argument key="exclude_tables" type="collection"/>
         <argument key="paths" type="collection">
-          <argument key="projectDir">/Volumes/DevDisk/projects/cyberden/cyberden</argument>
-          <argument key="schemaDir">/Volumes/DevDisk/projects/cyberden/cyberden</argument>
-          <argument key="outputDir">/Volumes/DevDisk/projects/cyberden/cyberden</argument>
-          <argument key="phpDir">/Volumes/DevDisk/projects/cyberden/cyberden/generated-classes</argument>
-          <argument key="phpConfDir">/Volumes/DevDisk/projects/cyberden/cyberden/generated-conf</argument>
-          <argument key="sqlDir">/Volumes/DevDisk/projects/cyberden/cyberden/generated-sql</argument>
-          <argument key="migrationDir">/Volumes/DevDisk/projects/cyberden/cyberden/generated-migrations</argument>
+          <argument key="projectDir">/Volumes/DevDisk/projects/cyberden/cyberden/web</argument>
+          <argument key="schemaDir">/Volumes/DevDisk/projects/cyberden/cyberden/web</argument>
+          <argument key="outputDir">/Volumes/DevDisk/projects/cyberden/cyberden/web</argument>
+          <argument key="phpDir">/Volumes/DevDisk/projects/cyberden/cyberden/web/generated-classes</argument>
+          <argument key="phpConfDir">/Volumes/DevDisk/projects/cyberden/cyberden/web/generated-conf</argument>
+          <argument key="sqlDir">/Volumes/DevDisk/projects/cyberden/cyberden/web/generated-sql</argument>
+          <argument key="migrationDir">/Volumes/DevDisk/projects/cyberden/cyberden/web/generated-migrations</argument>
           <argument key="composerDir">null</argument>
         </argument>
         <argument key="migrations" type="collection">
@@ -2289,7 +2510,7 @@
           <argument key="connections" type="collection"/>
           <argument key="logging">true</argument>
           <argument key="log" type="collection"/>
-          <argument key="defaultConnection">master</argument>
+          <argument key="defaultConnection">cyberden</argument>
         </argument>
         <argument key="generator" type="collection">
           <argument key="platformClass">null</argument>
@@ -2334,7 +2555,7 @@
               <argument key="interface">\Propel\Generator\Builder\Om\InterfaceBuilder</argument>
             </argument>
           </argument>
-          <argument key="defaultConnection">master</argument>
+          <argument key="defaultConnection">cyberden</argument>
         </argument>
       </argument>
     </service>
@@ -2343,7 +2564,7 @@
       <argument type="collection">
         <argument key="database" type="collection">
           <argument key="connections" type="collection">
-            <argument key="master" type="collection">
+            <argument key="cyberden" type="collection">
               <argument key="adapter">mysql</argument>
               <argument key="user">root</argument>
               <argument key="password">password</argument>
@@ -2379,13 +2600,13 @@
         </argument>
         <argument key="exclude_tables" type="collection"/>
         <argument key="paths" type="collection">
-          <argument key="projectDir">/Volumes/DevDisk/projects/cyberden/cyberden</argument>
-          <argument key="schemaDir">/Volumes/DevDisk/projects/cyberden/cyberden</argument>
-          <argument key="outputDir">/Volumes/DevDisk/projects/cyberden/cyberden</argument>
-          <argument key="phpDir">/Volumes/DevDisk/projects/cyberden/cyberden/generated-classes</argument>
-          <argument key="phpConfDir">/Volumes/DevDisk/projects/cyberden/cyberden/generated-conf</argument>
-          <argument key="sqlDir">/Volumes/DevDisk/projects/cyberden/cyberden/generated-sql</argument>
-          <argument key="migrationDir">/Volumes/DevDisk/projects/cyberden/cyberden/generated-migrations</argument>
+          <argument key="projectDir">/Volumes/DevDisk/projects/cyberden/cyberden/web</argument>
+          <argument key="schemaDir">/Volumes/DevDisk/projects/cyberden/cyberden/web</argument>
+          <argument key="outputDir">/Volumes/DevDisk/projects/cyberden/cyberden/web</argument>
+          <argument key="phpDir">/Volumes/DevDisk/projects/cyberden/cyberden/web/generated-classes</argument>
+          <argument key="phpConfDir">/Volumes/DevDisk/projects/cyberden/cyberden/web/generated-conf</argument>
+          <argument key="sqlDir">/Volumes/DevDisk/projects/cyberden/cyberden/web/generated-sql</argument>
+          <argument key="migrationDir">/Volumes/DevDisk/projects/cyberden/cyberden/web/generated-migrations</argument>
           <argument key="composerDir">null</argument>
         </argument>
         <argument key="migrations" type="collection">
@@ -2398,7 +2619,7 @@
           <argument key="connections" type="collection"/>
           <argument key="logging">true</argument>
           <argument key="log" type="collection"/>
-          <argument key="defaultConnection">master</argument>
+          <argument key="defaultConnection">cyberden</argument>
         </argument>
         <argument key="generator" type="collection">
           <argument key="platformClass">null</argument>
@@ -2443,7 +2664,7 @@
               <argument key="interface">\Propel\Generator\Builder\Om\InterfaceBuilder</argument>
             </argument>
           </argument>
-          <argument key="defaultConnection">master</argument>
+          <argument key="defaultConnection">cyberden</argument>
         </argument>
       </argument>
       <argument>null</argument>
@@ -2453,7 +2674,7 @@
       <argument type="collection">
         <argument key="database" type="collection">
           <argument key="connections" type="collection">
-            <argument key="master" type="collection">
+            <argument key="cyberden" type="collection">
               <argument key="adapter">mysql</argument>
               <argument key="user">root</argument>
               <argument key="password">password</argument>
@@ -2489,13 +2710,13 @@
         </argument>
         <argument key="exclude_tables" type="collection"/>
         <argument key="paths" type="collection">
-          <argument key="projectDir">/Volumes/DevDisk/projects/cyberden/cyberden</argument>
-          <argument key="schemaDir">/Volumes/DevDisk/projects/cyberden/cyberden</argument>
-          <argument key="outputDir">/Volumes/DevDisk/projects/cyberden/cyberden</argument>
-          <argument key="phpDir">/Volumes/DevDisk/projects/cyberden/cyberden/generated-classes</argument>
-          <argument key="phpConfDir">/Volumes/DevDisk/projects/cyberden/cyberden/generated-conf</argument>
-          <argument key="sqlDir">/Volumes/DevDisk/projects/cyberden/cyberden/generated-sql</argument>
-          <argument key="migrationDir">/Volumes/DevDisk/projects/cyberden/cyberden/generated-migrations</argument>
+          <argument key="projectDir">/Volumes/DevDisk/projects/cyberden/cyberden/web</argument>
+          <argument key="schemaDir">/Volumes/DevDisk/projects/cyberden/cyberden/web</argument>
+          <argument key="outputDir">/Volumes/DevDisk/projects/cyberden/cyberden/web</argument>
+          <argument key="phpDir">/Volumes/DevDisk/projects/cyberden/cyberden/web/generated-classes</argument>
+          <argument key="phpConfDir">/Volumes/DevDisk/projects/cyberden/cyberden/web/generated-conf</argument>
+          <argument key="sqlDir">/Volumes/DevDisk/projects/cyberden/cyberden/web/generated-sql</argument>
+          <argument key="migrationDir">/Volumes/DevDisk/projects/cyberden/cyberden/web/generated-migrations</argument>
           <argument key="composerDir">null</argument>
         </argument>
         <argument key="migrations" type="collection">
@@ -2508,7 +2729,7 @@
           <argument key="connections" type="collection"/>
           <argument key="logging">true</argument>
           <argument key="log" type="collection"/>
-          <argument key="defaultConnection">master</argument>
+          <argument key="defaultConnection">cyberden</argument>
         </argument>
         <argument key="generator" type="collection">
           <argument key="platformClass">null</argument>
@@ -2553,7 +2774,7 @@
               <argument key="interface">\Propel\Generator\Builder\Om\InterfaceBuilder</argument>
             </argument>
           </argument>
-          <argument key="defaultConnection">master</argument>
+          <argument key="defaultConnection">cyberden</argument>
         </argument>
       </argument>
     </service>
@@ -2566,7 +2787,7 @@
     <service id="data_collector.dump" class="Symfony\Component\HttpKernel\DataCollector\DumpDataCollector">
       <tag name="data_collector" id="dump" template="@Debug/Profiler/dump.html.twig" priority="240"/>
       <argument type="service" id="debug.stopwatch" on-invalid="ignore"/>
-      <argument>null</argument>
+      <argument type="service" id="debug.file_link_formatter"/>
       <argument>UTF-8</argument>
       <argument type="service" id="request_stack"/>
       <argument>null</argument>
@@ -2587,6 +2808,7 @@
     <service id="var_dumper.cli_dumper" class="Symfony\Component\VarDumper\Dumper\CliDumper">
       <argument>null</argument>
       <argument>UTF-8</argument>
+      <argument>0</argument>
     </service>
     <service id="web_profiler.controller.profiler" class="Symfony\Bundle\WebProfilerBundle\Controller\ProfilerController">
       <argument type="service" id="router" on-invalid="null"/>
@@ -2655,6 +2877,8 @@
         </argument>
       </argument>
       <argument>bottom</argument>
+      <argument type="service" id="web_profiler.csp.handler"/>
+      <argument>/Volumes/DevDisk/projects/cyberden/cyberden</argument>
     </service>
     <service id="web_profiler.controller.router" class="Symfony\Bundle\WebProfilerBundle\Controller\RouterController">
       <argument type="service" id="profiler" on-invalid="null"/>
@@ -2666,6 +2890,11 @@
       <argument type="service" id="twig"/>
       <argument>true</argument>
     </service>
+    <service id="web_profiler.csp.handler" class="Symfony\Bundle\WebProfilerBundle\Csp\ContentSecurityPolicyHandler" public="false">
+      <argument type="service">
+        <service class="Symfony\Bundle\WebProfilerBundle\Csp\NonceGenerator" public="false"/>
+      </argument>
+    </service>
     <service id="web_profiler.debug_toolbar" class="Symfony\Bundle\WebProfilerBundle\EventListener\WebDebugToolbarListener">
       <tag name="kernel.event_subscriber"/>
       <argument type="service" id="twig"/>
@@ -2674,6 +2903,7 @@
       <argument>bottom</argument>
       <argument type="service" id="router" on-invalid="ignore"/>
       <argument>^/(app(_[\w]+)?\.php/)?_wdt</argument>
+      <argument type="service" id="web_profiler.csp.handler"/>
     </service>
     <service id="sensio_distribution.security_checker" class="SensioLabs\Security\SecurityChecker"/>
     <service id="sensio_distribution.security_checker.command" class="SensioLabs\Security\Command\SecurityCheckerCommand">
@@ -2682,15 +2912,9 @@
     </service>
     <service id="monolog.logger.request" class="Symfony\Bridge\Monolog\Logger">
       <argument>request</argument>
-      <call method="pushHandler">
-        <argument type="service" id="monolog.handler.console"/>
+      <call method="pushProcessor">
+        <argument type="service" id="debug.log_processor"/>
       </call>
-      <call method="pushHandler">
-        <argument type="service" id="monolog.handler.main"/>
-      </call>
-    </service>
-    <service id="monolog.logger.translation" class="Symfony\Bridge\Monolog\Logger">
-      <argument>translation</argument>
       <call method="pushHandler">
         <argument type="service" id="monolog.handler.console"/>
       </call>
@@ -2700,6 +2924,21 @@
     </service>
     <service id="monolog.logger.cache" class="Symfony\Bridge\Monolog\Logger">
       <argument>cache</argument>
+      <call method="pushProcessor">
+        <argument type="service" id="debug.log_processor"/>
+      </call>
+      <call method="pushHandler">
+        <argument type="service" id="monolog.handler.console"/>
+      </call>
+      <call method="pushHandler">
+        <argument type="service" id="monolog.handler.main"/>
+      </call>
+    </service>
+    <service id="monolog.logger.translation" class="Symfony\Bridge\Monolog\Logger">
+      <argument>translation</argument>
+      <call method="pushProcessor">
+        <argument type="service" id="debug.log_processor"/>
+      </call>
       <call method="pushHandler">
         <argument type="service" id="monolog.handler.console"/>
       </call>
@@ -2709,6 +2948,9 @@
     </service>
     <service id="monolog.logger.templating" class="Symfony\Bridge\Monolog\Logger">
       <argument>templating</argument>
+      <call method="pushProcessor">
+        <argument type="service" id="debug.log_processor"/>
+      </call>
       <call method="pushHandler">
         <argument type="service" id="monolog.handler.console"/>
       </call>
@@ -2718,15 +2960,9 @@
     </service>
     <service id="monolog.logger.profiler" class="Symfony\Bridge\Monolog\Logger">
       <argument>profiler</argument>
-      <call method="pushHandler">
-        <argument type="service" id="monolog.handler.console"/>
+      <call method="pushProcessor">
+        <argument type="service" id="debug.log_processor"/>
       </call>
-      <call method="pushHandler">
-        <argument type="service" id="monolog.handler.main"/>
-      </call>
-    </service>
-    <service id="monolog.logger.router" class="Symfony\Bridge\Monolog\Logger">
-      <argument>router</argument>
       <call method="pushHandler">
         <argument type="service" id="monolog.handler.console"/>
       </call>
@@ -2736,6 +2972,9 @@
     </service>
     <service id="monolog.logger.php" class="Symfony\Bridge\Monolog\Logger">
       <argument>php</argument>
+      <call method="pushProcessor">
+        <argument type="service" id="debug.log_processor"/>
+      </call>
       <call method="pushHandler">
         <argument type="service" id="monolog.handler.console"/>
       </call>
@@ -2745,12 +2984,30 @@
     </service>
     <service id="monolog.logger.event" class="Symfony\Bridge\Monolog\Logger">
       <argument>event</argument>
+      <call method="pushProcessor">
+        <argument type="service" id="debug.log_processor"/>
+      </call>
       <call method="pushHandler">
         <argument type="service" id="monolog.handler.null_internal"/>
       </call>
     </service>
+    <service id="monolog.logger.router" class="Symfony\Bridge\Monolog\Logger">
+      <argument>router</argument>
+      <call method="pushProcessor">
+        <argument type="service" id="debug.log_processor"/>
+      </call>
+      <call method="pushHandler">
+        <argument type="service" id="monolog.handler.console"/>
+      </call>
+      <call method="pushHandler">
+        <argument type="service" id="monolog.handler.main"/>
+      </call>
+    </service>
     <service id="monolog.logger.security" class="Symfony\Bridge\Monolog\Logger">
       <argument>security</argument>
+      <call method="pushProcessor">
+        <argument type="service" id="debug.log_processor"/>
+      </call>
       <call method="pushHandler">
         <argument type="service" id="monolog.handler.console"/>
       </call>
@@ -2760,6 +3017,9 @@
     </service>
     <service id="monolog.logger.propel" class="Symfony\Bridge\Monolog\Logger">
       <argument>propel</argument>
+      <call method="pushProcessor">
+        <argument type="service" id="debug.log_processor"/>
+      </call>
       <call method="pushHandler">
         <argument type="service" id="monolog.handler.console"/>
       </call>
@@ -2782,10 +3042,6 @@
       <argument type="service" id="templating.locator"/>
       <autowiring-type>Symfony\Component\Templating\EngineInterface</autowiring-type>
       <autowiring-type>Symfony\Bundle\FrameworkBundle\Templating\EngineInterface</autowiring-type>
-    </service>
-    <service id="cache.default_redis_provider" class="Redis">
-      <argument>redis://localhost</argument>
-      <factory class="Symfony\Component\Cache\Adapter\RedisAdapter" method="createConnection"/>
     </service>
     <service id="router" class="Symfony\Bundle\FrameworkBundle\Routing\Router">
       <tag name="monolog.logger" channel="router"/>
@@ -2811,26 +3067,38 @@
       </call>
     </service>
     <service id="annotation_reader" class="Doctrine\Common\Annotations\CachedReader">
+      <argument type="service" id="annotations.reader"/>
       <argument type="service">
-        <service class="Doctrine\Common\Annotations\AnnotationReader" public="false">
-          <autowiring-type>Doctrine\Common\Annotations\Reader</autowiring-type>
-        </service>
-      </argument>
-      <argument type="service">
-        <service class="Doctrine\Common\Cache\FilesystemCache" public="false">
-          <argument>/Volumes/DevDisk/projects/cyberden/cyberden/var/cache/dev/annotations</argument>
+        <service class="Symfony\Component\Cache\DoctrineProvider" public="false">
+          <argument type="service">
+            <service class="Symfony\Component\Cache\Adapter\PhpArrayAdapter" public="false">
+              <argument>/Volumes/DevDisk/projects/cyberden/cyberden/var/cache/dev/annotations.php</argument>
+              <argument type="service" id="cache.annotations"/>
+              <factory class="Symfony\Component\Cache\Adapter\PhpArrayAdapter" method="create"/>
+            </service>
+          </argument>
         </service>
       </argument>
       <argument>true</argument>
       <autowiring-type>Doctrine\Common\Annotations\Reader</autowiring-type>
     </service>
     <service id="security.encoder_factory" class="Symfony\Component\Security\Core\Encoder\EncoderFactory">
-      <argument type="collection"/>
+      <argument type="collection">
+        <argument key="CyberdenBundle\Model\Administrator" type="collection">
+          <argument key="algorithm">sha256</argument>
+          <argument key="encode_as_base64">false</argument>
+          <argument key="iterations">1</argument>
+          <argument key="hash_algorithm">sha512</argument>
+          <argument key="key_length">40</argument>
+          <argument key="ignore_case">false</argument>
+          <argument key="cost">13</argument>
+        </argument>
+      </argument>
     </service>
     <service id="security.password_encoder" class="Symfony\Component\Security\Core\Encoder\UserPasswordEncoder">
       <argument type="service" id="security.encoder_factory"/>
     </service>
-    <service id="security.user_checker.main" class="Symfony\Component\Security\Core\User\UserChecker"/>
+    <service id="security.user_checker.secured_area" class="Symfony\Component\Security\Core\User\UserChecker"/>
     <service id="twig.loader" class="Symfony\Bundle\TwigBundle\Loader\FilesystemLoader">
       <tag name="twig.loader"/>
       <argument type="service" id="templating.locator"/>
@@ -2860,8 +3128,8 @@
         <argument>Propel</argument>
       </call>
       <call method="addPath">
-        <argument>/Volumes/DevDisk/projects/cyberden/cyberden/src/MainBundle/Resources/views</argument>
-        <argument>Main</argument>
+        <argument>/Volumes/DevDisk/projects/cyberden/cyberden/src/CyberdenBundle/Resources/views</argument>
+        <argument>Cyberden</argument>
       </call>
       <call method="addPath">
         <argument>/Volumes/DevDisk/projects/cyberden/cyberden/vendor/symfony/symfony/src/Symfony/Bundle/DebugBundle/Resources/views</argument>
@@ -2880,6 +3148,9 @@
     </service>
     <service id="logger" class="Symfony\Bridge\Monolog\Logger">
       <argument>app</argument>
+      <call method="pushProcessor">
+        <argument type="service" id="debug.log_processor"/>
+      </call>
       <call method="useMicrosecondTimestamps">
         <argument>true</argument>
       </call>
@@ -2956,6 +3227,7 @@
         </service>
       </configurator>
     </service>
+    <service id="cache.app_clearer" alias="cache.default_clearer"/>
     <service id="session.storage" alias="session.storage.native"/>
     <service id="event_dispatcher" alias="debug.event_dispatcher"/>
     <service id="swiftmailer.spool" alias="swiftmailer.mailer.default.spool"/>

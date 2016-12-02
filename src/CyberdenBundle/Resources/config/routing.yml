@@ -1,0 +1,9 @@
+station_monitor:
+    path: /
+    defaults: { _controller: CyberdenBundle:Station:monitor }
+    methods: [GET]
+
+login:
+    path:  /login
+    defaults: { _controller: CyberdenBundle:Security:login }
+    methods: [GET, POST]

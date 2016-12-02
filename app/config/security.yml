@@ -1,11 +1,20 @@
 # To get started with security, check out the documentation:
 # http://symfony.com/doc/current/book/security.html
 security:
+    encoders:
+        CyberdenBundle\Model\Administrator:
+            algorithm:        sha256
+            encode_as_base64: false
+            iterations:       1
+
+    providers:
+        administrator:
+            id: cyberden.security_user_provider.administrator
 
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
-    providers:
-        in_memory:
-            memory: ~
+    # providers:
+    #     in_memory:
+    #         memory: ~
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
@@ -13,9 +22,10 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        main:
+        secured_area:
             security: true
             anonymous: ~
+            provider: administrator
             # activate different ways to authenticate
 
             # http_basic: ~
@@ -24,4 +34,12 @@ security:
             form_login:
                 login_path: login
                 check_path: login
+
+            logout:
+                path:   /logout
+                target: /login
             # http://symfony.com/doc/current/cookbook/security/form_login_setup.html
+
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, roles: ROLE_ADMIN }

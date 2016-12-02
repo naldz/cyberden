@@ -1,9 +1,0 @@
-station_monitor:
-    path: /
-    defaults: { _controller: MainBundle:Station:monitor }
-    methods: [GET]
-
-login:
-    path:  /login
-    defaults: { _controller: MainBundle:Security:login }
-    methods: [GET]

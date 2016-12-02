@@ -94,7 +94,7 @@
             <div id="sidebar">
                 <div id="sidebar-shortcuts">
                     <div class="shortcuts">
-                        <a href="#" class="visible-small" onclick="Sfjs.toggleClass(document.getElementById('sidebar'), 'expanded'); return false;">
+                        <a href="#" id="sidebarShortcutsMenu" class="visible-small">
                             <span class="icon">{{ include('@WebProfiler/Icon/menu.svg') }}</span>
                         </a>
 
@@ -114,7 +114,7 @@
                         {% for name, template in templates %}
                             {% set menu -%}
                                 {% with { collector: profile.getcollector(name), profiler_markup_version: profiler_markup_version } %}
-                                    {{ block('menu', template) }}
+                                    {{- block('menu', template) -}}
                                 {% endwith %}
                             {%- endset %}
                             {% if menu is not empty %}
@@ -128,4 +128,12 @@
             </div>
         </div>
     </div>
+    <script>
+        (function () {
+            Sfjs.addEventListener(document.getElementById('sidebarShortcutsMenu'), 'click', function (event) {
+                event.preventDefault();
+                Sfjs.toggleClass(document.getElementById('sidebar'), 'expanded');
+            })
+        }())
+    </script>
 {% endblock %}

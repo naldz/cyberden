@@ -3,5 +3,5 @@
 #     type:     annotation
 
 main:
-    resource: "@MainBundle/Resources/config/routing.yml"
+    resource: "@CyberdenBundle/Resources/config/routing.yml"
     prefix:   /
