@@ -43,8 +43,15 @@ class appDevDebugProjectContainer extends Container
             'cache_warmer' => 'getCacheWarmerService',
             'config_cache_factory' => 'getConfigCacheFactoryService',
             'controller_name_converter' => 'getControllerNameConverterService',
-            'cyberden.entity_repository.administrator' => 'getCyberden_EntityRepository_AdministratorService',
+            'cyberden.model_repository.administrator' => 'getCyberden_ModelRepository_AdministratorService',
+            'cyberden.model_repository.session' => 'getCyberden_ModelRepository_SessionService',
+            'cyberden.model_repository.setting' => 'getCyberden_ModelRepository_SettingService',
+            'cyberden.model_repository.station' => 'getCyberden_ModelRepository_StationService',
             'cyberden.security_user_provider.administrator' => 'getCyberden_SecurityUserProvider_AdministratorService',
+            'cyberden.twig_extension.cost' => 'getCyberden_TwigExtension_CostService',
+            'cyberden.twig_extension.time_lapse' => 'getCyberden_TwigExtension_TimeLapseService',
+            'cyberden.utility.rental_cost_calculator' => 'getCyberden_Utility_RentalCostCalculatorService',
+            'cyberden.utility.time_lapse_calculator' => 'getCyberden_Utility_TimeLapseCalculatorService',
             'data_collector.dump' => 'getDataCollector_DumpService',
             'data_collector.form' => 'getDataCollector_FormService',
             'data_collector.form.extractor' => 'getDataCollector_Form_ExtractorService',
@@ -376,7 +383,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getCache_SystemService()
     {
-        return $this->services['cache.system'] = \Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('x4oGnxQWSb', 0, 'dwqEoKLi3SF+xZmlznlKHJ', (__DIR__.'/pools'), $this->get('monolog.logger.cache', ContainerInterface::NULL_ON_INVALID_REFERENCE));
+        return $this->services['cache.system'] = \Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('x4oGnxQWSb', 0, 'm+8Fm6Hzl0xRLf3PTFr4Zn', (__DIR__.'/pools'), $this->get('monolog.logger.cache', ContainerInterface::NULL_ON_INVALID_REFERENCE));
     }
 
     /**
@@ -407,7 +414,7 @@ class appDevDebugProjectContainer extends Container
 
         $c = new \Symfony\Bundle\FrameworkBundle\CacheWarmer\TemplateFinder($a, $b, ($this->targetDirs[3].'/app/Resources'));
 
-        return $this->services['cache_warmer'] = new \Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerAggregate(array(0 => new \Symfony\Bundle\FrameworkBundle\CacheWarmer\TemplatePathsCacheWarmer($c, ${($_ = isset($this->services['templating.locator']) ? $this->services['templating.locator'] : $this->getTemplating_LocatorService()) && false ?: '_'}), 1 => new \Symfony\Bundle\TwigBundle\CacheWarmer\TemplateCacheWarmer($this->get('twig'), new \Symfony\Bundle\TwigBundle\TemplateIterator($a, ($this->targetDirs[3].'/app'), array())), 2 => new \Symfony\Bundle\TwigBundle\CacheWarmer\TemplateCacheCacheWarmer($this, $c, array()), 3 => new \Symfony\Bundle\FrameworkBundle\CacheWarmer\AnnotationsCacheWarmer(${($_ = isset($this->services['annotations.reader']) ? $this->services['annotations.reader'] : $this->getAnnotations_ReaderService()) && false ?: '_'}, (__DIR__.'/annotations.php'), ${($_ = isset($this->services['cache.annotations']) ? $this->services['cache.annotations'] : $this->getCache_AnnotationsService()) && false ?: '_'}), 4 => new \Symfony\Bundle\FrameworkBundle\CacheWarmer\RouterCacheWarmer($this->get('router')), 5 => new \Symfony\Bundle\FrameworkBundle\CacheWarmer\ValidatorCacheWarmer($this->get('validator.builder'), (__DIR__.'/validation.php'), \Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('ZthitVCt+z', 0, 'dwqEoKLi3SF+xZmlznlKHJ', (__DIR__.'/pools'), $this->get('monolog.logger.cache', ContainerInterface::NULL_ON_INVALID_REFERENCE))), 6 => $this->get('kernel.class_cache.cache_warmer'), 7 => new \Symfony\Bundle\FrameworkBundle\CacheWarmer\TranslationsCacheWarmer($this->get('translator'))));
+        return $this->services['cache_warmer'] = new \Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerAggregate(array(0 => new \Symfony\Bundle\FrameworkBundle\CacheWarmer\TemplatePathsCacheWarmer($c, ${($_ = isset($this->services['templating.locator']) ? $this->services['templating.locator'] : $this->getTemplating_LocatorService()) && false ?: '_'}), 1 => new \Symfony\Bundle\TwigBundle\CacheWarmer\TemplateCacheWarmer($this->get('twig'), new \Symfony\Bundle\TwigBundle\TemplateIterator($a, ($this->targetDirs[3].'/app'), array())), 2 => new \Symfony\Bundle\TwigBundle\CacheWarmer\TemplateCacheCacheWarmer($this, $c, array()), 3 => new \Symfony\Bundle\FrameworkBundle\CacheWarmer\AnnotationsCacheWarmer(${($_ = isset($this->services['annotations.reader']) ? $this->services['annotations.reader'] : $this->getAnnotations_ReaderService()) && false ?: '_'}, (__DIR__.'/annotations.php'), ${($_ = isset($this->services['cache.annotations']) ? $this->services['cache.annotations'] : $this->getCache_AnnotationsService()) && false ?: '_'}), 4 => new \Symfony\Bundle\FrameworkBundle\CacheWarmer\RouterCacheWarmer($this->get('router')), 5 => new \Symfony\Bundle\FrameworkBundle\CacheWarmer\ValidatorCacheWarmer($this->get('validator.builder'), (__DIR__.'/validation.php'), \Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('ZthitVCt+z', 0, 'm+8Fm6Hzl0xRLf3PTFr4Zn', (__DIR__.'/pools'), $this->get('monolog.logger.cache', ContainerInterface::NULL_ON_INVALID_REFERENCE))), 6 => $this->get('kernel.class_cache.cache_warmer'), 7 => new \Symfony\Bundle\FrameworkBundle\CacheWarmer\TranslationsCacheWarmer($this->get('translator'))));
     }
 
     /**
@@ -424,16 +431,55 @@ class appDevDebugProjectContainer extends Container
     }
 
     /**
-     * Gets the 'cyberden.entity_repository.administrator' service.
+     * Gets the 'cyberden.model_repository.administrator' service.
      *
      * This service is shared.
      * This method always returns the same instance of the service.
      *
-     * @return \CyberdenBundle\Service\EntityRepository\AdministratorRepository A CyberdenBundle\Service\EntityRepository\AdministratorRepository instance
+     * @return \CyberdenBundle\Service\ModelRepository\AdministratorRepository A CyberdenBundle\Service\ModelRepository\AdministratorRepository instance
      */
-    protected function getCyberden_EntityRepository_AdministratorService()
+    protected function getCyberden_ModelRepository_AdministratorService()
     {
-        return $this->services['cyberden.entity_repository.administrator'] = new \CyberdenBundle\Service\EntityRepository\AdministratorRepository($this->get('debug.event_dispatcher'));
+        return $this->services['cyberden.model_repository.administrator'] = new \CyberdenBundle\Service\ModelRepository\AdministratorRepository($this->get('debug.event_dispatcher'));
+    }
+
+    /**
+     * Gets the 'cyberden.model_repository.session' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \CyberdenBundle\Service\ModelRepository\SessionRepository A CyberdenBundle\Service\ModelRepository\SessionRepository instance
+     */
+    protected function getCyberden_ModelRepository_SessionService()
+    {
+        return $this->services['cyberden.model_repository.session'] = new \CyberdenBundle\Service\ModelRepository\SessionRepository($this->get('debug.event_dispatcher'));
+    }
+
+    /**
+     * Gets the 'cyberden.model_repository.setting' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \CyberdenBundle\Service\ModelRepository\SettingRepository A CyberdenBundle\Service\ModelRepository\SettingRepository instance
+     */
+    protected function getCyberden_ModelRepository_SettingService()
+    {
+        return $this->services['cyberden.model_repository.setting'] = new \CyberdenBundle\Service\ModelRepository\SettingRepository($this->get('debug.event_dispatcher'));
+    }
+
+    /**
+     * Gets the 'cyberden.model_repository.station' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \CyberdenBundle\Service\ModelRepository\StationRepository A CyberdenBundle\Service\ModelRepository\StationRepository instance
+     */
+    protected function getCyberden_ModelRepository_StationService()
+    {
+        return $this->services['cyberden.model_repository.station'] = new \CyberdenBundle\Service\ModelRepository\StationRepository($this->get('debug.event_dispatcher'));
     }
 
     /**
@@ -446,7 +492,59 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getCyberden_SecurityUserProvider_AdministratorService()
     {
-        return $this->services['cyberden.security_user_provider.administrator'] = new \CyberdenBundle\Service\Security\UserProvider\AdministratorUserProvider($this->get('cyberden.entity_repository.administrator'));
+        return $this->services['cyberden.security_user_provider.administrator'] = new \CyberdenBundle\Service\Security\UserProvider\AdministratorUserProvider($this->get('cyberden.model_repository.administrator'));
+    }
+
+    /**
+     * Gets the 'cyberden.twig_extension.cost' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \CyberdenBundle\Service\TwigExtension\RentalCost A CyberdenBundle\Service\TwigExtension\RentalCost instance
+     */
+    protected function getCyberden_TwigExtension_CostService()
+    {
+        return $this->services['cyberden.twig_extension.cost'] = new \CyberdenBundle\Service\TwigExtension\RentalCost($this->get('cyberden.utility.rental_cost_calculator'));
+    }
+
+    /**
+     * Gets the 'cyberden.twig_extension.time_lapse' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \CyberdenBundle\Service\TwigExtension\TimeLapse A CyberdenBundle\Service\TwigExtension\TimeLapse instance
+     */
+    protected function getCyberden_TwigExtension_TimeLapseService()
+    {
+        return $this->services['cyberden.twig_extension.time_lapse'] = new \CyberdenBundle\Service\TwigExtension\TimeLapse($this->get('cyberden.utility.time_lapse_calculator'));
+    }
+
+    /**
+     * Gets the 'cyberden.utility.rental_cost_calculator' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \CyberdenBundle\Service\Utility\RentalCostCalculator A CyberdenBundle\Service\Utility\RentalCostCalculator instance
+     */
+    protected function getCyberden_Utility_RentalCostCalculatorService()
+    {
+        return $this->services['cyberden.utility.rental_cost_calculator'] = new \CyberdenBundle\Service\Utility\RentalCostCalculator($this->get('cyberden.model_repository.setting'));
+    }
+
+    /**
+     * Gets the 'cyberden.utility.time_lapse_calculator' service.
+     *
+     * This service is shared.
+     * This method always returns the same instance of the service.
+     *
+     * @return \CyberdenBundle\Service\Utility\TimeLapseCalculator A CyberdenBundle\Service\Utility\TimeLapseCalculator instance
+     */
+    protected function getCyberden_Utility_TimeLapseCalculatorService()
+    {
+        return $this->services['cyberden.utility.time_lapse_calculator'] = new \CyberdenBundle\Service\Utility\TimeLapseCalculator();
     }
 
     /**
@@ -2013,7 +2111,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getPropertyAccessorService()
     {
-        return $this->services['property_accessor'] = new \Symfony\Component\PropertyAccess\PropertyAccessor(false, false, \Symfony\Component\PropertyAccess\PropertyAccessor::createCache('oufX7cqPfp', NULL, 'dwqEoKLi3SF+xZmlznlKHJ', $this->get('monolog.logger.cache', ContainerInterface::NULL_ON_INVALID_REFERENCE)));
+        return $this->services['property_accessor'] = new \Symfony\Component\PropertyAccess\PropertyAccessor(false, false, \Symfony\Component\PropertyAccess\PropertyAccessor::createCache('oufX7cqPfp', NULL, 'm+8Fm6Hzl0xRLf3PTFr4Zn', $this->get('monolog.logger.cache', ContainerInterface::NULL_ON_INVALID_REFERENCE)));
     }
 
     /**
@@ -2229,7 +2327,7 @@ class appDevDebugProjectContainer extends Container
         $n = new \Symfony\Component\Security\Http\Authentication\DefaultAuthenticationFailureHandler($f, $k, array(), $a);
         $n->setOptions(array('login_path' => 'login', 'failure_path' => NULL, 'failure_forward' => false, 'failure_path_parameter' => '_failure_path'));
 
-        return $this->services['security.firewall.map.context.secured_area'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => new \Symfony\Component\Security\Http\Firewall\ChannelListener($j, new \Symfony\Component\Security\Http\EntryPoint\RetryAuthenticationEntryPoint(80, 443), $a), 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($b, array(0 => $this->get('cyberden.security_user_provider.administrator')), 'secured_area', $a, $c, $d), 2 => $l, 3 => new \Symfony\Component\Security\Http\Firewall\UsernamePasswordFormAuthenticationListener($b, $g, new \Symfony\Component\Security\Http\Session\SessionAuthenticationStrategy('migrate'), $k, 'secured_area', $m, $n, array('check_path' => 'login', 'use_forward' => false, 'require_previous_session' => true, 'username_parameter' => '_username', 'password_parameter' => '_password', 'csrf_parameter' => '_csrf_token', 'csrf_token_id' => 'authenticate', 'post_only' => true), $a, $c, NULL), 4 => new \Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener($b, '58418c79cb6f82.52627947', $a, $g), 5 => new \Symfony\Component\Security\Http\Firewall\AccessListener($b, ${($_ = isset($this->services['debug.security.access.decision_manager']) ? $this->services['debug.security.access.decision_manager'] : $this->getDebug_Security_Access_DecisionManagerService()) && false ?: '_'}, $j, $g)), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($b, $d, $k, 'secured_area', new \Symfony\Component\Security\Http\EntryPoint\FormAuthenticationEntryPoint($f, $k, 'login', false), NULL, NULL, $a, false), new \Symfony\Bundle\SecurityBundle\Security\FirewallConfig('secured_area', 'security.user_checker', NULL, true, false, 'security.user.provider.concrete.administrator', 'secured_area', 'security.authentication.form_entry_point.secured_area', NULL, NULL, array(0 => 'logout', 1 => 'form_login', 2 => 'anonymous')));
+        return $this->services['security.firewall.map.context.secured_area'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => new \Symfony\Component\Security\Http\Firewall\ChannelListener($j, new \Symfony\Component\Security\Http\EntryPoint\RetryAuthenticationEntryPoint(80, 443), $a), 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($b, array(0 => $this->get('cyberden.security_user_provider.administrator')), 'secured_area', $a, $c, $d), 2 => $l, 3 => new \Symfony\Component\Security\Http\Firewall\UsernamePasswordFormAuthenticationListener($b, $g, new \Symfony\Component\Security\Http\Session\SessionAuthenticationStrategy('migrate'), $k, 'secured_area', $m, $n, array('check_path' => 'login', 'use_forward' => false, 'require_previous_session' => true, 'username_parameter' => '_username', 'password_parameter' => '_password', 'csrf_parameter' => '_csrf_token', 'csrf_token_id' => 'authenticate', 'post_only' => true), $a, $c, NULL), 4 => new \Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener($b, '58689737ddea11.73725122', $a, $g), 5 => new \Symfony\Component\Security\Http\Firewall\AccessListener($b, ${($_ = isset($this->services['debug.security.access.decision_manager']) ? $this->services['debug.security.access.decision_manager'] : $this->getDebug_Security_Access_DecisionManagerService()) && false ?: '_'}, $j, $g)), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($b, $d, $k, 'secured_area', new \Symfony\Component\Security\Http\EntryPoint\FormAuthenticationEntryPoint($f, $k, 'login', false), NULL, NULL, $a, false), new \Symfony\Bundle\SecurityBundle\Security\FirewallConfig('secured_area', 'security.user_checker', NULL, true, false, 'security.user.provider.concrete.administrator', 'secured_area', 'security.authentication.form_entry_point.secured_area', NULL, NULL, array(0 => 'logout', 1 => 'form_login', 2 => 'anonymous')));
     }
 
     /**
@@ -3159,6 +3257,8 @@ class appDevDebugProjectContainer extends Container
 
         $this->services['twig'] = $instance = new \Twig_Environment($this->get('twig.loader'), array('debug' => true, 'strict_variables' => true, 'exception_controller' => 'twig.controller.exception:showAction', 'form_themes' => array(0 => 'form_div_layout.html.twig'), 'autoescape' => 'name', 'cache' => (__DIR__.'/twig'), 'charset' => 'UTF-8', 'paths' => array(), 'date' => array('format' => 'F j, Y H:i', 'interval_format' => '%d days', 'timezone' => NULL), 'number_format' => array('decimals' => 0, 'decimal_point' => '.', 'thousands_separator' => ',')));
 
+        $instance->addExtension($this->get('cyberden.twig_extension.time_lapse'));
+        $instance->addExtension($this->get('cyberden.twig_extension.cost'));
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\LogoutUrlExtension(${($_ = isset($this->services['security.logout_url_generator']) ? $this->services['security.logout_url_generator'] : $this->getSecurity_LogoutUrlGeneratorService()) && false ?: '_'}));
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\SecurityExtension($this->get('security.authorization_checker', ContainerInterface::NULL_ON_INVALID_REFERENCE)));
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\ProfilerExtension($this->get('twig.profile'), $a));
@@ -3503,7 +3603,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getCache_AnnotationsService()
     {
-        return $this->services['cache.annotations'] = \Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('AzAC+eWen6', 0, 'dwqEoKLi3SF+xZmlznlKHJ', (__DIR__.'/pools'), $this->get('monolog.logger.cache'));
+        return $this->services['cache.annotations'] = \Symfony\Component\Cache\Adapter\AbstractAdapter::createSystemCache('AzAC+eWen6', 0, 'm+8Fm6Hzl0xRLf3PTFr4Zn', (__DIR__.'/pools'), $this->get('monolog.logger.cache'));
     }
 
     /**
@@ -3645,7 +3745,7 @@ class appDevDebugProjectContainer extends Container
      */
     protected function getSecurity_Authentication_ManagerService()
     {
-        $this->services['security.authentication.manager'] = $instance = new \Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager(array(0 => new \Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider($this->get('cyberden.security_user_provider.administrator'), $this->get('security.user_checker.secured_area'), 'secured_area', $this->get('security.encoder_factory'), true), 1 => new \Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider('58418c79cb6f82.52627947')), true);
+        $this->services['security.authentication.manager'] = $instance = new \Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager(array(0 => new \Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider($this->get('cyberden.security_user_provider.administrator'), $this->get('security.user_checker.secured_area'), 'secured_area', $this->get('security.encoder_factory'), true), 1 => new \Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider('58689737ddea11.73725122')), true);
 
         $instance->setEventDispatcher($this->get('debug.event_dispatcher'));
 

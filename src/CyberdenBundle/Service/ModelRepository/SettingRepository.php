@@ -1,11 +1,11 @@
 <?php
 
-namespace CyberdenBundle\Service\EntityRepository;
+namespace CyberdenBundle\Service\ModelRepository;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use CyberdenBundle\Model\AdministratorQuery;
+use CyberdenBundle\Model\SettingQuery;
 
-class AdministratorRepository
+class SettingRepository
 {
     private $eventDispatcher;
 
@@ -26,6 +26,6 @@ class AdministratorRepository
 
     public function createQuery()
     {
-        return AdministratorQuery::create();
+        return SettingQuery::create();
     }
 }

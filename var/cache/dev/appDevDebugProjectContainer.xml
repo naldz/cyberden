@@ -434,11 +434,32 @@
     </parameter>
   </parameters>
   <services>
-    <service id="cyberden.entity_repository.administrator" class="CyberdenBundle\Service\EntityRepository\AdministratorRepository">
+    <service id="cyberden.security_user_provider.administrator" class="CyberdenBundle\Service\Security\UserProvider\AdministratorUserProvider">
+      <argument type="service" id="cyberden.model_repository.administrator"/>
+    </service>
+    <service id="cyberden.model_repository.administrator" class="CyberdenBundle\Service\ModelRepository\AdministratorRepository">
       <argument type="service" id="debug.event_dispatcher"/>
     </service>
-    <service id="cyberden.security_user_provider.administrator" class="CyberdenBundle\Service\Security\UserProvider\AdministratorUserProvider">
-      <argument type="service" id="cyberden.entity_repository.administrator"/>
+    <service id="cyberden.model_repository.station" class="CyberdenBundle\Service\ModelRepository\StationRepository">
+      <argument type="service" id="debug.event_dispatcher"/>
+    </service>
+    <service id="cyberden.model_repository.setting" class="CyberdenBundle\Service\ModelRepository\SettingRepository">
+      <argument type="service" id="debug.event_dispatcher"/>
+    </service>
+    <service id="cyberden.model_repository.session" class="CyberdenBundle\Service\ModelRepository\SessionRepository">
+      <argument type="service" id="debug.event_dispatcher"/>
+    </service>
+    <service id="cyberden.utility.rental_cost_calculator" class="CyberdenBundle\Service\Utility\RentalCostCalculator">
+      <argument type="service" id="cyberden.model_repository.setting"/>
+    </service>
+    <service id="cyberden.utility.time_lapse_calculator" class="CyberdenBundle\Service\Utility\TimeLapseCalculator"/>
+    <service id="cyberden.twig_extension.time_lapse" class="CyberdenBundle\Service\TwigExtension\TimeLapse">
+      <tag name="twig.extension"/>
+      <argument type="service" id="cyberden.utility.time_lapse_calculator"/>
+    </service>
+    <service id="cyberden.twig_extension.cost" class="CyberdenBundle\Service\TwigExtension\RentalCost">
+      <tag name="twig.extension"/>
+      <argument type="service" id="cyberden.utility.rental_cost_calculator"/>
     </service>
     <service id="controller_name_converter" class="Symfony\Bundle\FrameworkBundle\Controller\ControllerNameParser" public="false">
       <tag name="monolog.logger" channel="request"/>
@@ -534,7 +555,7 @@
                 <tag name="cache.pool" clearer="cache.default_clearer"/>
                 <argument>ZthitVCt+z</argument>
                 <argument>0</argument>
-                <argument>dwqEoKLi3SF+xZmlznlKHJ</argument>
+                <argument>m+8Fm6Hzl0xRLf3PTFr4Zn</argument>
                 <argument>/Volumes/DevDisk/projects/cyberden/cyberden/var/cache/dev/pools</argument>
                 <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
                 <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
@@ -662,7 +683,7 @@
           <tag name="monolog.logger" channel="cache"/>
           <argument>oufX7cqPfp</argument>
           <argument>null</argument>
-          <argument>dwqEoKLi3SF+xZmlznlKHJ</argument>
+          <argument>m+8Fm6Hzl0xRLf3PTFr4Zn</argument>
           <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
           <factory class="Symfony\Component\PropertyAccess\PropertyAccessor" method="createCache"/>
         </service>
@@ -683,7 +704,7 @@
       <tag name="cache.pool" clearer="cache.default_clearer"/>
       <argument>x4oGnxQWSb</argument>
       <argument>0</argument>
-      <argument>dwqEoKLi3SF+xZmlznlKHJ</argument>
+      <argument>m+8Fm6Hzl0xRLf3PTFr4Zn</argument>
       <argument>/Volumes/DevDisk/projects/cyberden/cyberden/var/cache/dev/pools</argument>
       <argument type="service" id="monolog.logger.cache" on-invalid="ignore"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
@@ -693,7 +714,7 @@
       <tag name="cache.pool" clearer="cache.default_clearer"/>
       <argument>AzAC+eWen6</argument>
       <argument>0</argument>
-      <argument>dwqEoKLi3SF+xZmlznlKHJ</argument>
+      <argument>m+8Fm6Hzl0xRLf3PTFr4Zn</argument>
       <argument>/Volumes/DevDisk/projects/cyberden/cyberden/var/cache/dev/pools</argument>
       <argument type="service" id="monolog.logger.cache"/>
       <factory class="Symfony\Component\Cache\Adapter\AbstractAdapter" method="createSystemCache"/>
@@ -1687,7 +1708,7 @@
         </argument>
         <argument type="service">
           <service class="Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider" public="false">
-            <argument>58418c79cb6f82.52627947</argument>
+            <argument>58689737ddea11.73725122</argument>
           </service>
         </argument>
       </argument>
@@ -1971,7 +1992,7 @@
         <argument type="service">
           <service class="Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener" public="false">
             <argument type="service" id="security.token_storage"/>
-            <argument>58418c79cb6f82.52627947</argument>
+            <argument>58689737ddea11.73725122</argument>
             <argument type="service" id="monolog.logger.security" on-invalid="null"/>
             <argument type="service" id="security.authentication.manager"/>
           </service>
@@ -2085,6 +2106,12 @@
           <argument key="thousands_separator">,</argument>
         </argument>
       </argument>
+      <call method="addExtension">
+        <argument type="service" id="cyberden.twig_extension.time_lapse"/>
+      </call>
+      <call method="addExtension">
+        <argument type="service" id="cyberden.twig_extension.cost"/>
+      </call>
       <call method="addExtension">
         <argument type="service">
           <service class="Symfony\Bridge\Twig\Extension\LogoutUrlExtension" public="false">

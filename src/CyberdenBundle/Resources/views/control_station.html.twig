@@ -1,0 +1,175 @@
+{% extends 'CyberdenBundle::secured_base.html.twig' %}
+
+{% block secured_body %}
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <!-- Page Heading -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2 class="page-header">Control Station</h2>
+                    <div class="">
+                        <table class="table table-bordered table-hover table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Station</th>
+                                    <th>In Session</th>
+                                    <th>Duration </th>
+                                    <th>Time Started</th>
+                                    <th>End Time</th>
+                                    <th>Total Cost</th>
+                                    <th>Current Usage</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="station-list">
+                            {# 
+                                {% for station in stations %}
+                                    {% set currentSession = false %}
+                                    {% if sessions[station.id] is defined %}
+                                        {% set currentSession = sessions[station.id] %}
+                                    {% endif %}
+                                    <tr class="{% if currentSession is not empty %}info{% else %}active{% endif %}">
+                                        <td>{{ station.name }}</td>
+                                        <td>
+                                            {% if currentSession is not empty %}Yes{% else %}No{% endif %}
+                                        </td>
+                                        <td>
+                                            {% if currentSession is not empty %}
+                                                {% if currentSession.duration is not empty %}
+                                                    {{ currentSession.duration }} hours
+                                                {% else %}
+                                                    Open Time
+                                                {% endif %}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if currentSession is not empty %}
+                                                {{ currentSession.startTime | date('h:i A') }}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if currentSession is not empty %}
+                                                {% if currentSession.endTime is not empty %}
+                                                    {{ currentSession.endTime | date('h:i A') }}
+                                                {% else %}
+                                                    Open Time
+                                                {% endif %}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if currentSession is not empty %}
+                                                {% if currentSession.endTime is not empty %}
+                                                    {{ rental_cost(currentSession.startTime, currentSession.endTime) }}
+                                                {% else %}
+                                                    Open Time
+                                                {% endif %}
+                                            {% endif %}
+                                        </td>
+                                        <td>
+                                            {% if currentSession is not empty %}
+                                                Time Lapse: <strong>{{ time_lapse(currentSession.startTime, date()) }}</strong> | 
+                                                Current Cost: <strong>{{ rental_cost(currentSession.startTime, date()) | number_format(2, '.', ',') }}</strong>
+                                            {% endif %}
+                                        </td>
+                                        <td>
+
+                                            <div class="dropdown">
+                                                <i class="glyphicon glyphicon-cog dropdown-toggle" data-toggle="dropdown" id="dropdownMenu1" data-toggle="dropdown"></i>
+                                                <ul class="dropdown-menu dropdown-menu-right">
+                                                    <li class="disabled">
+                                                        <a href="#">New Session</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="#">Extend Session</a>
+                                                    </li>
+                                                    <li role="separator" class="divider"></li>
+                                                    <li><a href="#">Stop Session</a></li>
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %} 
+                            #}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+
+    {# <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".modal">Small modal</button> #}
+    {#<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+      <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+          ...
+        </div>
+      </div>
+    </div> #}
+
+    <div id="new-session-popup" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">New Session - Station <span id="new-session-station"></span></h4>
+                </div>
+                <div class="modal-body">
+                    {# <p>One fine body&hellip;</p> #}
+                    <form role="form" id="new-session-form">
+                        <fieldset id="new-session-fieldset">
+                            <div class="form-group">
+                                <label>No. of Hours</label>
+                                <select id="new-session-hours" class="form-control">
+                                    <option value="0">Open Time</option>
+                                    <option value=".5">00:30</option>
+                                    <option value="1">01:00</option>
+                                    <option value="1.5">01:30</option>
+                                    <option value="2">02:00</option>
+                                    <option value="2.5">02:30</option>
+                                    <option value="3">03:00</option>
+                                    <option value="3.5">03:30</option>
+                                    <option value="4">04:00</option>
+                                    <option value="4.5">04:30</option>
+                                    <option value="5">05:00</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Comments</label>
+                                <textarea id="new-session-comments" class="form-control" rows="3"></textarea>
+                            </div>
+                        </fieldset>
+
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="new-session-cancel" type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button 
+                        id="new-session-start" 
+                        type="button" 
+                        class="btn btn-primary"
+                        data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Starting Session"
+                    >Start Session</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('/vendor/js/dombuilder.js') }}"></script>
+    <script src="{{ asset('/app/js/controlstation.js') }}"></script>
+    <script type="text/javascript">
+        (function($){
+            $(window).on('load', function(){ 
+                stationMonitor.init({{ data | raw }});
+            });
+        })(jQuery);
+
+    </script>
+{% endblock %}

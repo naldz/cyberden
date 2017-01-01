@@ -6,7 +6,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
-use CyberdenBundle\Service\EntityRepository\AdministratorRepository;
+use CyberdenBundle\Service\ModelRepository\AdministratorRepository;
 use CyberdenBundle\Model\Administrator;
 
 class AdministratorUserProvider implements UserProviderInterface

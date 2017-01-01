@@ -1,9 +1,37 @@
-station_monitor:
+control_station:
     path: /
-    defaults: { _controller: CyberdenBundle:Station:monitor }
+    defaults: { _controller: CyberdenBundle:Backend/Station:monitor }
+    methods: [GET]
+
+session_list:
+    path: /sessions
+    defaults: { _controller: CyberdenBundle:Backend/Session:list }
+    methods: [GET]
+
+new_session:
+    path: /sessions/new
+    defaults: { _controller: CyberdenBundle:Backend/Session:new }
+    methods: [POST]
+
+session_info:
+    path: /sessions/{id}
+    defaults: { _controller: CyberdenBundle:Backend/Session:info }
+    methods: [GET]
+
+session_update:
+    path: /sessions/{id}/save
+    defaults: { _controller: CyberdenBundle:Backend/Session:update }
+    methods: [POST]
+
+control_station_data:
+    path: /control-stations
+    defaults: { _controller: CyberdenBundle:Backend/Station:monitorData }
     methods: [GET]
 
 login:
     path:  /login
-    defaults: { _controller: CyberdenBundle:Security:login }
+    defaults: { _controller: CyberdenBundle:Backend/Security:login }
     methods: [GET, POST]
+
+logout:
+    path: /logout

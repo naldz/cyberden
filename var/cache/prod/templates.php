@@ -83,6 +83,7 @@
   'PropelBundle:Panel:configuration.html.twig' => __DIR__.'/../../../vendor/propel/propel-bundle/Resources/views/Panel/configuration.html.twig',
   'PropelBundle:Panel:explain.html.twig' => __DIR__.'/../../../vendor/propel/propel-bundle/Resources/views/Panel/explain.html.twig',
   'CyberdenBundle::base.html.twig' => __DIR__.'/../../../src/CyberdenBundle/Resources/views/base.html.twig',
+  'CyberdenBundle::monitor.html.twig' => __DIR__.'/../../../src/CyberdenBundle/Resources/views/monitor.html.twig',
   'CyberdenBundle::secured_base.html.twig' => __DIR__.'/../../../src/CyberdenBundle/Resources/views/secured_base.html.twig',
   'CyberdenBundle:security:login.html.twig' => __DIR__.'/../../../src/CyberdenBundle/Resources/views/security/login.html.twig',
   '::base.html.twig' => __DIR__.'/../../../app/Resources/views/base.html.twig',

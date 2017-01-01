@@ -16,5 +16,6 @@ use CyberdenBundle\Model\Base\StationQuery as BaseStationQuery;
  */
 class StationQuery extends BaseStationQuery
 {
-
+    const IS_COMMISSIONED_TRUE = 1;
+    const IS_COMMISSIONED_FALSE = 2;
 }

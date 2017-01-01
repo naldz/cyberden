@@ -7,10 +7,47 @@ services:
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
-    cyberden.entity_repository.administrator:
-        class: CyberdenBundle\Service\EntityRepository\AdministratorRepository
-        arguments: ["@event_dispatcher"]
 
+    ### USER PROVIDERS ###
     cyberden.security_user_provider.administrator:
         class: CyberdenBundle\Service\Security\UserProvider\AdministratorUserProvider
-        arguments: ["@cyberden.entity_repository.administrator"]
+        arguments: ["@cyberden.model_repository.administrator"]
+
+    ### ENTITY REPOSITORY ###
+    cyberden.model_repository.administrator:
+        class: CyberdenBundle\Service\ModelRepository\AdministratorRepository
+        arguments: ["@event_dispatcher"]
+
+    cyberden.model_repository.station:
+        class: CyberdenBundle\Service\ModelRepository\StationRepository
+        arguments: ["@event_dispatcher"]
+
+    cyberden.model_repository.setting:
+        class: CyberdenBundle\Service\ModelRepository\SettingRepository
+        arguments: ["@event_dispatcher"]
+
+    cyberden.model_repository.session:
+        class: CyberdenBundle\Service\ModelRepository\SessionRepository
+        arguments: ["@event_dispatcher"]
+
+    ### UTILITY ###
+    cyberden.utility.rental_cost_calculator:
+        class: CyberdenBundle\Service\Utility\RentalCostCalculator
+        arguments: ["@cyberden.model_repository.setting"]
+
+    cyberden.utility.time_lapse_calculator:
+        class: CyberdenBundle\Service\Utility\TimeLapseCalculator
+
+    ### TWIG EXTENSIONS ###
+    cyberden.twig_extension.time_lapse:
+        class: CyberdenBundle\Service\TwigExtension\TimeLapse
+        arguments: ["@cyberden.utility.time_lapse_calculator"]
+        tags:
+            - { name: twig.extension }
+
+    cyberden.twig_extension.cost:
+        class: CyberdenBundle\Service\TwigExtension\RentalCost
+        arguments: ["@cyberden.utility.rental_cost_calculator"]
+        tags:
+            - { name: twig.extension }
+
